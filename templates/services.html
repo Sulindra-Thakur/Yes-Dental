@@ -1,0 +1,211 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-accent: #b42dd8;
+        --text-dark: #231c26;
+        --text-muted: #6c757d;
+        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --purple-glow-soft: rgba(163, 44, 196, 0.04);
+    }
+
+    /* ==========================================
+       PAGE BACKGROUND
+    ========================================== */
+    body {
+        background: linear-gradient(135deg, #f8f6fa, #eef3f1);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================
+       SECTION HEADER
+    ========================================== */
+    .section-title h6 {
+        letter-spacing: 2px;
+        font-size: 0.8rem;
+        color: var(--brand-main);
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .section-title h2 {
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-top: 12px;
+        letter-spacing: -1px;
+    }
+
+    .section-title p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* ==========================================
+       PREMIUM SERVICE CARD GRID
+    ========================================== */
+    .service-card {
+        border: 1px solid rgba(163, 44, 196, 0.04);
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 0 12px 35px var(--purple-glow-soft);
+        transition: var(--transition-smooth);
+        padding: 35px 25px;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Top interactive gradient accent line */
+    .service-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--brand-main), var(--brand-accent));
+        opacity: 0;
+        transition: var(--transition-smooth);
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 55px rgba(163, 44, 196, 0.12);
+        border-color: rgba(163, 44, 196, 0.15);
+    }
+
+    .service-card:hover::before {
+        opacity: 1;
+    }
+
+    /* ==========================================
+       DYNAMIC ICON STYLE MODULES
+    ========================================== */
+    .icon-circle {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: rgba(163, 44, 196, 0.06);
+        color: var(--brand-main);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px auto;
+        transition: var(--transition-smooth);
+    }
+
+    .service-card:hover .icon-circle {
+        background: rgba(163, 44, 196, 0.14);
+        transform: scale(1.05);
+        color: var(--brand-accent);
+    }
+
+    /* ==========================================
+       TEXT & TYPOGRAPHY STYLING
+    ========================================== */
+    .service-card h5 {
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: var(--text-dark);
+        font-size: 1.2rem;
+        letter-spacing: -0.3px;
+    }
+
+    .service-card p {
+        font-size: 0.95rem;
+        color: #5a525d;
+        line-height: 1.55;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+
+    /* ==========================================
+       PREMIUM INTERACTION CALL TO ACTION
+    ========================================== */
+    .btn-service {
+        border: 1.5px solid var(--brand-main);
+        color: var(--brand-main);
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        padding: 8px 20px;
+        transition: var(--transition-smooth);
+        background: transparent;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .btn-service:hover {
+        background: var(--brand-main);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(163, 44, 196, 0.2);
+    }
+
+    /* ==========================================
+       STRUCTURE SPACING
+    ========================================== */
+    .services-section {
+        padding: 100px 0;
+    }
+</style>
+
+<div class="container services-section">
+
+    <!-- SECTION TITLE -->
+    <div class="text-center section-title mb-5 pb-2">
+        <h6>Our Expertise</h6>
+        <h2 class="display-5">Comprehensive Dental Services</h2>
+        <p>Advanced treatments delivered with care, precision, and modern technology.</p>
+    </div>
+
+    <!-- CORE SERVICES DYNAMIC HOVER MATRIX -->
+    <div class="row g-4">
+
+        {% set services = [
+            {'icon': 'fa-tooth', 'title': 'Dental Implants', 'desc': 'Permanent, natural-looking solutions for missing teeth using titanium posts.'},
+            {'icon': 'fa-bacterium', 'title': 'Root Canal (RCT)', 'desc': 'Painless treatment to save infected teeth and avoid extraction.'},
+            {'icon': 'fa-gem', 'title': 'Teeth Whitening', 'desc': 'Professional whitening for a brighter, confident smile.'},
+            {'icon': 'fa-teeth', 'title': 'Braces & Aligners', 'desc': 'Metal braces and invisible aligners for perfect alignment.'},
+            {'icon': 'fa-baby', 'title': 'Pediatric Dentistry', 'desc': 'Gentle dental care designed for children.'},
+            {'icon': 'fa-magic', 'title': 'Cosmetic Dentistry', 'desc': 'Smile makeovers including veneers and bonding.'},
+            {'icon': 'fa-teeth-open', 'title': 'Crowns & Bridges', 'desc': 'Restore damaged teeth with durable prosthetics.'},
+            {'icon': 'fa-exclamation-triangle', 'title': 'Tooth Extraction', 'desc': 'Safe and painless tooth removal procedures.'}
+        ] %}
+
+        {% for s in services %}
+        <div class="col-sm-6 col-md-6 col-lg-3">
+
+            <div class="service-card text-center">
+
+                <div>
+                    <div class="icon-circle">
+                        <i class="fas {{ s.icon }} fa-2x"></i>
+                    </div>
+
+                    <h5>{{ s.title }}</h5>
+                    <p>{{ s.desc }}</p>
+                </div>
+
+                <a href="#booking" class="btn btn-service btn-sm mt-2">
+                    Book This Service
+                </a>
+
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

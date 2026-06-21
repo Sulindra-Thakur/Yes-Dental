@@ -1,0 +1,507 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 22%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --border-radius-lg: 24px;
+        --border-radius-md: 16px;
+        --border-radius-sm: 12px;
+        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --brand-main: hsl(285, 89%, 34%);
+    }
+
+    body {
+        background: linear-gradient(135deg, #f8f6fa, #f0eaf5);
+        font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    .modal-search-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .modal-search-wrapper i {
+        position: absolute;
+        left: 15px;
+        color: #8c8291;
+    }
+
+    .modal-search-control {
+        padding-left: 40px !important;
+        border-radius: var(--border-radius-sm);
+        border: 1px solid #e2d9e6;
+        height: 48px;
+    }
+
+    .modal-search-control:focus {
+        border-color: var(--brand-main);
+        box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.1);
+    }
+
+    .form-select-custom {
+        border-radius: var(--border-radius-sm);
+        border: 1px solid #e2d9e6;
+    }
+
+    .client-details-card {
+        background: #ffffff;
+        border-radius: var(--border-radius-lg);
+        box-shadow: 0 10px 40px rgba(114, 9, 183, 0.04);
+        border: 1px solid rgba(114, 9, 183, 0.05);
+        overflow: hidden;
+    }
+
+    .card-header-premium {
+        background: var(--header-gradient);
+        color: #ffffff;
+        padding: 25px 30px;
+    }
+
+    .btn-header-back {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 8px 14px;
+        border-radius: var(--border-radius-sm);
+        transition: var(--transition-smooth);
+        text-decoration: none;
+    }
+
+    .btn-header-back:hover {
+        background: #ffffff;
+        color: var(--brand-main);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-header-history {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        border: 1px dashed rgba(255, 255, 255, 0.4);
+        padding: 6px 16px;
+        border-radius: 50px;
+        font-size: 12px;
+        transition: var(--transition-smooth);
+    }
+
+    .btn-header-history:hover {
+        background: #ffffff;
+        color: var(--brand-main);
+        border-color: #ffffff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .data-parameter-box {
+        background-color: #faf8fc;
+        border: 1px solid rgba(114, 9, 183, 0.05);
+        border-radius: var(--border-radius-md);
+        padding: 20px;
+        height: 100%;
+        transition: var(--transition-smooth);
+    }
+
+    .data-parameter-box:hover {
+        background-color: #ffffff;
+        border-color: rgba(114, 9, 183, 0.15);
+        box-shadow: 0 8px 25px rgba(114, 9, 183, 0.05);
+    }
+
+    .box-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #8c8291;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .history-log-container {
+        background-color: #fcfbfe;
+        border: 1px dashed #dcd1e3;
+        max-height: 350px;
+        overflow-y: auto;
+        padding: 15px;
+        border-radius: var(--border-radius-sm);
+    }
+
+    .timeline-note-entry {
+        background: #ffffff;
+        border-left: 4px solid var(--brand-main);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        padding: 12px 15px;
+        margin-bottom: 12px;
+        border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+    }
+
+    .timeline-note-entry:last-child {
+        margin-bottom: 0;
+    }
+    
+    .style-text-break {
+        word-break: break-word;
+        white-space: pre-line;
+    }
+</style>
+
+<div class="container py-5">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show rounded-3 mb-4 shadow-sm" role="alert">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-triangle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="card client-details-card border-0">
+                
+                <div class="card-header-premium d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <a href="javascript:history.back()" class="btn-header-back small fw-semibold">
+                            <i class="fas fa-chevron-left me-1"></i> Back
+                        </a>
+                        <h4 class="m-0 fw-bold d-flex align-items-center gap-2">
+                            <i class="fas fa-folder-open"></i> Patient Record Management Engine
+                            <span class="d-flex align-items-center gap-1 ms-2" style="font-size: 14px; opacity: 0.85;">
+                                <i class="fab fa-google" title="Google Workspace Verified" style="color: #ffffff;"></i>
+                                <i class="fab fa-amazon" title="Amazon Web Services Secured" style="color: #ffffff;"></i>
+                            </span>
+                        </h4>
+                    </div>
+                    
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" id="headerHistoryBtn" class="btn btn-header-history fw-semibold shadow-sm">
+                            <i class="fas fa-history me-1"></i> History Logs
+                        </button>
+                        <span class="badge bg-white text-dark py-2 px-3 rounded-pill fw-bold shadow-sm" style="font-size: 12px;">
+                            Active Database
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark text-uppercase small" style="letter-spacing: 0.5px;">
+                            <i class="fas fa-search me-1 text-brand-purple"></i> Smart Search Filter
+                        </label>
+                        <div class="modal-search-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="modalPatientSearch" class="form-control modal-search-control" 
+                                   placeholder="Type name here (e.g., Thakur) to auto-select and load data parameter list...">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-dark text-uppercase small" style="letter-spacing: 0.5px;">
+                            Select Target Record List
+                        </label>
+                        <select class="form-select form-select-custom py-2.5 px-3" id="modalClientSelector">
+                            <option value="" selected disabled>-- Choose a patient from the list --</option>
+                            {% if appointments %}
+                                {% for appt in appointments %}
+                                    <option value="{{ appt.id }}" 
+                                            data-fullname="{{ appt.fullname }}" 
+                                            data-phone="{{ appt.phone }}" 
+                                            data-email="{{ appt.email }}" 
+                                            data-date="{{ appt.date }}"
+                                            data-time="{{ appt.time }}"
+                                            data-treatment="{{ appt.treatment }}" 
+                                            data-address="{{ appt.address if appt.address else 'No address provided' }}"
+                                            data-status="{{ appt.status }}"
+                                            data-original-client-note="{{ appt.notes.split('|||')[0].strip() if appt.notes else '' }}"
+                                            data-full-history-notes="{{ appt.notes if appt.notes else '' }}">
+                                        ID: #{{ appt.id }} | {{ appt.fullname }}
+                                    </option>
+                                {% endfor %}
+                            {% else %}
+                                <option disabled>No files loaded from server</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <hr class="my-4 opacity-20">
+
+                    <div class="row g-3" id="modalMetadataDisplay" style="display: none;">
+                        
+                        <div class="col-md-4">
+                            <div class="data-parameter-box">
+                                <span class="box-label">Patient ID</span>
+                                <span class="fw-bold text-primary fs-5" id="lbl_id">#0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            <div class="data-parameter-box">
+                                <span class="box-label">Patient Full Name</span>
+                                <span class="fw-bold text-dark fs-5" id="lbl_name">-</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="data-parameter-box">
+                                <span class="box-label">Contact Details</span>
+                                <div class="text-dark fw-semibold mb-1" id="lbl_phone">
+                                    <i class="fas fa-phone me-2 text-muted"></i>-
+                                </div>
+                                <div class="text-muted small text-break" id="lbl_email">
+                                    <i class="fas fa-envelope me-2 text-muted"></i>-
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="data-parameter-box">
+                                <span class="box-label">Schedule Timeline</span>
+                                <div class="text-dark fw-semibold mb-1" id="lbl_date">
+                                    <i class="far fa-calendar-alt me-2 text-muted"></i>-
+                                </div>
+                                <div class="text-muted small" id="lbl_time">
+                                    <i class="far fa-clock me-2 text-muted"></i>-
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="data-parameter-box">
+                                <span class="box-label">Requested Treatment</span>
+                                <span class="badge px-3 py-2 rounded-pill fw-semibold mt-1" id="lbl_treatment" 
+                                      style="font-size: 13px; color: hsl(285, 89%, 34%) !important; background-color: rgba(114, 9, 183, 0.08);">
+                                    None
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="data-parameter-box">
+                                <span class="box-label">Patient Address</span>
+                                <div class="text-dark small mt-1" id="lbl_address">
+                                    <i class="fas fa-map-marker-alt me-2 text-muted"></i>-
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="data-parameter-box" style="background-color: #fcfaff; border-left: 4px solid #cc5500;">
+                                <span class="box-label" style="color: #cc5500;"><i class="fas fa-user-edit me-1"></i> Original Patient Request Note</span>
+                                <div class="text-dark small mt-1 fw-medium style-text-break" id="lbl_latest_note">
+                                    No description provided by the patient.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-between align-items-center my-2 flex-wrap gap-2">
+                            <button type="button" id="toggleHistoryBtn" class="btn btn-outline-secondary btn-sm px-4 py-2 fw-semibold shadow-sm d-flex align-items-center gap-2" style="border-radius: var(--border-radius-sm); border-color: #dcd1e3; color: var(--brand-main);">
+                                <i class="fas fa-eye"></i> <span>View Treatment Progress Logs</span>
+                            </button>
+                            <div class="d-flex align-items-center gap-3 px-3 py-1 bg-light rounded-pill border">
+                                <span class="text-muted small fw-bold text-uppercase" style="font-size: 10px; letter-spacing: 0.5px;">Cloud Integration:</span>
+                                <i class="fab fa-google text-muted" title="Sync via Google Cloud" style="cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#4285F4'" onmouseout="this.style.color=''"></i>
+                                <i class="fab fa-amazon text-muted" title="Backup via Amazon AWS" style="cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#FF9900'" onmouseout="this.style.color=''"></i>
+                            </div>
+                        </div>
+
+                        <div class="col-12 dynamic-history-section" id="historySectionWrapper" style="display: none;">
+                            <div class="data-parameter-box">
+                                <span class="box-label text-purple mb-2"><i class="fas fa-history me-1"></i> Complete Clinical Timeline Updates</span>
+                                <div class="history-log-container" id="notesHistory">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 mt-2" id="doctorNoteFormSection">
+                            <div class="data-parameter-box" style="border-left: 4px solid #28a745; background-color: #f8fff9;">
+                                <span class="box-label" style="color: #28a745;"><i class="fas fa-pen-fancy me-1"></i> Add Doctor Treatment Progress Note</span>
+                                <form id="addDoctorNoteForm" method="POST" action="">
+                                    <div class="mb-3">
+                                        <textarea class="form-control style-text-break" id="txtDoctorNote" name="doctor_note" rows="4" style="border-radius: var(--border-radius-sm); border: 1px solid #cce6d0;" placeholder="Type current diagnostic overview, clinical observations, or timeline progression notes here..." required></textarea>
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-success btn-sm px-4 py-2 fw-semibold shadow-sm" style="border-radius: var(--border-radius-sm); background-color: #28a745; border-color: #28a745;">
+                                            <i class="fas fa-save me-1"></i> Commit Progress Note
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div> </div> </div> </div> 
+    </div> 
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const selector = document.getElementById("modalClientSelector");
+    const searchInput = document.getElementById("modalPatientSearch");
+    const displayGrid = document.getElementById("modalMetadataDisplay");
+    const historyWrapper = document.getElementById("historySectionWrapper");
+    const toggleHistoryBtn = document.getElementById("toggleHistoryBtn");
+    const doctorForm = document.getElementById("addDoctorNoteForm");
+
+    // 1. URL search handler params check (MODIFICATION FOR REDIRECT ACTION)
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetSelectId = urlParams.get('select_id');
+    const autoShowLogs = urlParams.get('show_logs');
+
+    // Live search inside drop-down options
+    if (searchInput) {
+        searchInput.addEventListener("input", function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            let matchedValue = "";
+
+            Array.from(selector.options).forEach(opt => {
+                if (opt.value === "") return;
+                const fullname = opt.getAttribute("data-fullname") ? opt.getAttribute("data-fullname").toLowerCase() : "";
+                
+                if (fullname.includes(term)) {
+                    opt.style.display = "";
+                    if (!matchedValue) matchedValue = opt.value;
+                } else {
+                    opt.style.display = "none";
+                }
+            });
+
+            if (term && matchedValue) {
+                selector.value = matchedValue;
+                selector.dispatchEvent(new Event('change'));
+            }
+        });
+    }
+
+    // Trigger state change to load dynamic profiles
+    if (selector) {
+        selector.addEventListener("change", function() {
+            const selectedOpt = selector.options[selector.selectedIndex];
+            if (!selectedOpt || selectedOpt.value === "") {
+                displayGrid.style.display = "none";
+                return;
+            }
+
+            // Map standard text properties
+            document.getElementById("lbl_id").textContent = "#" + selectedOpt.value;
+            document.getElementById("lbl_name").textContent = selectedOpt.getAttribute("data-fullname");
+            document.getElementById("lbl_phone").innerHTML = `<i class="fas fa-phone me-2 text-muted"></i>` + selectedOpt.getAttribute("data-phone");
+            document.getElementById("lbl_email").innerHTML = `<i class="fas fa-envelope me-2 text-muted"></i>` + selectedOpt.getAttribute("data-email");
+            document.getElementById("lbl_date").innerHTML = `<i class="far fa-calendar-alt me-2 text-muted"></i>` + selectedOpt.getAttribute("data-date");
+            document.getElementById("lbl_time").innerHTML = `<i class="far fa-clock me-2 text-muted"></i>` + selectedOpt.getAttribute("data-time");
+            document.getElementById("lbl_treatment").textContent = selectedOpt.getAttribute("data-treatment");
+            document.getElementById("lbl_address").innerHTML = `<i class="fas fa-map-marker-alt me-2 text-muted"></i>` + selectedOpt.getAttribute("data-address");
+            
+            // Dynamic updates for Form Post Route Action mapping
+            if (doctorForm) {
+                doctorForm.action = "/add_treatment_log/" + selectedOpt.value;
+                document.getElementById("txtDoctorNote").value = ""; 
+            }
+
+            // Clean Client Request Note
+            const cleanClientNote = selectedOpt.getAttribute("data-original-client-note");
+            document.getElementById("lbl_latest_note").textContent = cleanClientNote ? cleanClientNote : "No notes or descriptions recorded.";
+
+            // Dynamic Progress Logger Array Builder
+            const rawHistory = selectedOpt.getAttribute("data-full-history-notes");
+            const historyContainer = document.getElementById("notesHistory");
+            historyContainer.innerHTML = ""; 
+
+            if (rawHistory && rawHistory.includes("|||")) {
+                const logsArray = rawHistory.split("|||");
+                let entriesCount = 0;
+                
+                for (let i = 1; i < logsArray.length; i++) {
+                    const block = logsArray[i].trim();
+                    if (!block) continue;
+
+                    entriesCount++;
+                    const bracketIndex = block.indexOf("]");
+                    let timestamp = "System Timestamp Untracked";
+                    let contentBody = block;
+
+                    if (block.startsWith("[") && bracketIndex !== -1) {
+                        timestamp = block.substring(1, bracketIndex);
+                        contentBody = block.substring(bracketIndex + 1).trim();
+                    }
+
+                    const entryNode = document.createElement("div");
+                    entryNode.className = "timeline-note-entry";
+                    
+                    // MODIFICATION: Delete inline configuration integration
+                    entryNode.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="badge bg-secondary text-white fw-bold" style="font-size:10px;">Doctor Logged Entry</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="text-muted small fw-semibold" style="font-size:11px;"><i class="far fa-clock me-1"></i>${timestamp}</span>
+                                
+                                <form action="/delete_treatment_log/${selectedOpt.value}/${i}" method="POST" onsubmit="return confirm('Kya aap is progress note entry ko hamesha ke liye delete karna chahte hain?');" style="display:inline;">
+                                    <button type="submit" class="btn btn-link text-danger p-0 m-0 border-0 align-baseline" title="Delete Entry" style="box-shadow:none;">
+                                        <i class="fas fa-trash-alt" style="font-size: 12px; cursor:pointer;"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="text-dark small style-text-break fw-medium">${contentBody}</div>
+                    `;
+                    historyContainer.appendChild(entryNode);
+                }
+                
+                if (entriesCount === 0) {
+                    historyContainer.innerHTML = `<div class="text-muted text-center py-3 fst-italic small">No dynamic treatment workflow cycles updated yet.</div>`;
+                }
+            } else {
+                historyContainer.innerHTML = `<div class="text-muted text-center py-3 fst-italic small">No dynamic treatment workflow cycles updated yet.</div>`;
+            }
+
+            // Reset dynamic wrapper visualization states
+            displayGrid.style.display = "flex";
+            
+            // MODIFICATION: Check if backend requested to force open logs interface specifically
+            if (autoShowLogs === 'true') {
+                historyWrapper.style.display = "block";
+                toggleHistoryBtn.querySelector("span").textContent = "Hide Progress Logs";
+                toggleHistoryBtn.querySelector("i").className = "fas fa-eye-slash";
+                setTimeout(() => {
+                    historyWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 300);
+                // Clean the URL context bar tracking parameters quietly
+                window.history.replaceState({}, document.title, window.location.pathname + "?select_id=" + selectedOpt.value);
+            } else {
+                historyWrapper.style.display = "none";
+                toggleHistoryBtn.querySelector("span").textContent = "View Treatment Progress Logs";
+                toggleHistoryBtn.querySelector("i").className = "fas fa-eye";
+            }
+        });
+    }
+
+    // Interactive Timeline Box Drawer Toggle 
+    if (toggleHistoryBtn) {
+        toggleHistoryBtn.addEventListener("click", function() {
+            if (historyWrapper.style.display === "none") {
+                historyWrapper.style.display = "block";
+                toggleHistoryBtn.querySelector("span").textContent = "Hide Progress Logs";
+                toggleHistoryBtn.querySelector("i").className = "fas fa-eye-slash";
+                historyWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                historyWrapper.style.display = "none";
+                toggleHistoryBtn.querySelector("span").textContent = "View Treatment Progress Logs";
+                toggleHistoryBtn.querySelector("i").className = "fas fa-eye";
+            }
+        });
+    }
+
+    // MODIFICATION: Handle initial state injection if targeted from URL query parameters
+    if (targetSelectId && selector) {
+        selector.value = targetSelectId;
+        selector.dispatchEvent(new Event('change'));
+    }
+});
+</script>
+
+{% endblock %}

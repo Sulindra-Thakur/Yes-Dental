@@ -1,0 +1,236 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 22px;
+        --border-radius-md: 14px;
+        --border-radius-sm: 10px;
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-main-hover: hsl(285, 97%, 25%);
+    }
+
+    /* ==========================================
+       BACKGROUND & LAYOUT CORE SYSTEM
+    ========================================== */
+    body {
+        background: linear-gradient(135deg, #f8f6fa, #f0eaf5);
+        font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    /* ==========================================
+       WELCOME BANNER CONSOLE DESIGN
+    ========================================= */
+    .avatar-container {
+        width: 110px;
+        height: 110px;
+        font-size: 2.7rem;
+        background: rgba(114, 9, 183, 0.08);
+        color: var(--brand-main);
+        border: 2px dashed rgba(114, 9, 183, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition-smooth);
+    }
+
+    .avatar-container:hover {
+        transform: rotate(360deg);
+        background: rgba(114, 9, 183, 0.15);
+    }
+
+    /* FIXED: Pure Solid Purple Color applied to everything inside the welcome title */
+    .welcome-title {
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: var(--brand-main) !important; /* Ab welcome aur exclamation mark permanent purple rahenge */
+    }
+
+    .name-highlight {
+        font-weight: 850;
+        color: var(--brand-main) !important;
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Bottom elegant underline bar */
+    .name-highlight::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 100%;
+        height: 4px;
+        background: var(--header-gradient);
+        border-radius: 10px;
+        opacity: 0.8;
+    }
+
+    /* ==========================================
+       DASHBOARD PREMIUM CARDS ARCHITECTURE
+    ========================================== */
+    .dashboard-card {
+        border-radius: var(--border-radius-lg);
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(114, 9, 183, 0.04);
+        transition: var(--transition-smooth);
+        overflow: hidden;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(114, 9, 183, 0.12);
+    }
+
+    /* ICON CONTAINERS CONFIGURATION */
+    .icon-circle {
+        width: 76px;
+        height: 76px;
+        font-size: 2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--border-radius-md);
+        transition: var(--transition-smooth);
+    }
+
+    /* Contextual Icon Colors */
+    .icon-box-appointment {
+        background: rgba(114, 9, 183, 0.08);
+        color: var(--brand-main);
+    }
+
+    .icon-box-history {
+        background: rgba(25, 135, 84, 0.08);
+        color: #198754;
+    }
+
+    .icon-box-profile {
+        background: rgba(13, 202, 240, 0.08);
+        color: #0dcaf0;
+    }
+
+    .dashboard-card:hover .icon-circle {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    /* ==========================================
+       DYNAMIC ACTION NAVIGATION BUTTONS
+    ========================================== */
+    .btn-portal-action {
+        border-radius: var(--border-radius-sm);
+        font-weight: 600;
+        padding: 0.7rem 1.5rem;
+        background: var(--brand-main);
+        border-color: var(--brand-main);
+        color: #ffffff;
+        transition: var(--transition-smooth);
+    }
+
+    .btn-portal-action:hover {
+        background: var(--brand-main-hover);
+        border-color: var(--brand-main-hover);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(114, 9, 183, 0.25);
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    /* RESPONSIVE RENDERING INTERLOCKS */
+    @media (max-width: 768px) {
+        .welcome-title {
+            font-size: 2rem;
+        }
+        .avatar-container {
+            width: 90px;
+            height: 90px;
+            font-size: 2.2rem;
+        }
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <div class="avatar-container mx-auto mb-3 rounded-circle">
+            <i class="fas fa-user"></i>
+        </div>
+
+        <h1 class="display-5 welcome-title">
+            Welcome, <span class="name-highlight">{{ name }}</span>!
+        </h1>
+
+        <p class="lead text-muted max-w-600 mx-auto mt-2">
+            Manage your dental health with our easy-to-use patient portal dashboard layout.
+        </p>
+    </div>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="card h-100 dashboard-card shadow-sm">
+                <div class="card-body text-center p-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="icon-circle icon-box-appointment mb-4">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Book Appointment</h5>
+                        <p class="text-muted small mb-4">
+                            Schedule a routine check-up, professional scaling, dental cleaning, or specialty consultation.
+                        </p>
+                    </div>
+                    <a href="{{ url_for('booking_page') }}" class="btn btn-portal-action w-100">
+                        <i class="fas fa-plus me-1 small"></i> Book Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 dashboard-card shadow-sm">
+                <div class="card-body text-center p-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="icon-circle icon-box-history mb-4">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Treatment History</h5>
+                        <p class="text-muted small mb-4">
+                            Access secure electronic prescription logs, past clinical records, diagnostics, and visit histories.
+                        </p>
+                    </div>
+                    <a href="{{ url_for('treatment_history') }}" class="btn btn-portal-action w-100">
+                        <i class="fas fa-folder-open me-1 small"></i> View Records
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 dashboard-card shadow-sm">
+                <div class="card-body text-center p-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="icon-circle icon-box-profile mb-4">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">My Profile</h5>
+                        <p class="text-muted small mb-4">
+                            Manage communication preferences, modify personal profile datasets, contact information, and security configurations.
+                        </p>
+                    </div>
+                    <a href="{{ url_for('my_profile') }}" class="btn btn-portal-action w-100">
+                        <i class="fas fa-id-card me-1 small"></i> Profile Engine
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div> </div> {% endblock %}

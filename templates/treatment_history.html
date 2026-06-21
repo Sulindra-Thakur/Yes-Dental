@@ -1,0 +1,199 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 22px;
+        --border-radius-md: 14px;
+        --border-radius-sm: 10px;
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-main-hover: hsl(285, 97%, 25%);
+    }
+
+    /* ==========================================
+       BACKGROUND & LAYOUT CORE SYSTEM
+    ========================================== */
+    body {
+        background: linear-gradient(135deg, #f8f6fa, #f0eaf5);
+        font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    /* PAGE TITLE BANNER */
+    .history-main-title {
+        color: var(--brand-main);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    /* PREMIUM TIMELINE CARDS */
+    .history-premium-card {
+        border-radius: var(--border-radius-md);
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 8px 25px rgba(114, 9, 183, 0.03);
+        transition: var(--transition-smooth);
+        overflow: hidden;
+        border-left: 5px solid var(--brand-main);
+    }
+
+    .history-premium-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(114, 9, 183, 0.09);
+    }
+
+    /* DYNAMIC STATUS BADGES */
+    .badge-status-pill {
+        font-size: 0.82rem;
+        font-weight: 700;
+        border-radius: 30px;
+        padding: 7px 16px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    /* SUB-LABELS DESIGN */
+    .meta-data-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #8c8291;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 3px;
+    }
+
+    .meta-data-value {
+        font-weight: 600;
+        color: #2b242e;
+        font-size: 0.98rem;
+    }
+
+    /* ACTION NAVIGATION LINKS */
+    .btn-history-back {
+        background: var(--brand-main);
+        border-color: var(--brand-main);
+        color: #ffffff;
+        border-radius: 50px;
+        padding: 11px 30px;
+        font-weight: 600;
+        transition: var(--transition-smooth);
+        box-shadow: 0 4px 15px rgba(114, 9, 183, 0.15);
+    }
+
+    .btn-history-back:hover {
+        background: var(--brand-main-hover);
+        border-color: var(--brand-main-hover);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(114, 9, 183, 0.25);
+    }
+
+    .text-primary {
+        color: var(--brand-main) !important;
+    }
+    
+    .divider-dashed {
+        border-top: 1px dashed #e6dfeb;
+        opacity: 1;
+        margin: 15px 0;
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h2 class="display-6 history-main-title">
+            <i class="fas fa-history me-2"></i>Treatment History
+        </h2>
+        <p class="text-muted fw-semibold">Review your past clinical visits, statuses, and logs</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            {% if appointments|length == 0 %}
+                <div class="card text-center p-5 border-0 shadow-sm rounded-4 bg-white">
+                    <div class="text-muted mb-3">
+                        <i class="fas fa-folder-open fa-3x opacity-25"></i>
+                    </div>
+                    <h5 class="fw-bold text-secondary">No Appointments Found</h5>
+                    <p class="text-muted small mb-0">Your secure electronic medical treatment tracking is empty right now.</p>
+                </div>
+            {% else %}
+
+                {% for a in appointments %}
+                <div class="card history-premium-card mb-4">
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                            <div>
+                                <h5 class="fw-bold text-primary mb-1">
+                                    Appointment #{{ a.id }}
+                                </h5>
+                                <div class="text-muted small fw-semibold">
+                                    <i class="far fa-calendar-alt me-1"></i> {{ a.date }} &bull; <i class="far fa-clock me-1"></i> {{ a.time }}
+                                </div>
+                            </div>
+
+                            <div>
+                                {% if a.status == 'confirmed' %}
+                                    <span class="badge bg-success bg-opacity-10 text-success badge-status-pill border border-success border-opacity-25">Confirmed</span>
+                                {% elif a.status == 'pending' %}
+                                    <span class="badge bg-warning bg-opacity-10 text-dark badge-status-pill border border-warning border-opacity-25">Pending</span>
+                                {% else %}
+                                    <span class="badge bg-danger bg-opacity-10 text-danger badge-status-pill border border-danger border-opacity-25">Rejected</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="divider-dashed"></div>
+
+                        <div class="row g-3">
+                            <div class="col-sm-6 col-md-3">
+                                <div class="meta-data-label">Patient Name</div>
+                                <div class="meta-data-value">{{ a.fullname }}</div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-3">
+                                <div class="meta-data-label">Email Address</div>
+                                <div class="meta-data-value text-break" style="font-size: 0.9rem;">{{ a.email }}</div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-3">
+                                <div class="meta-data-label">Requested Treatment</div>
+                                <div class="meta-data-value">
+                                    <span class="badge px-2.5 py-1.5 fw-semibold" style="background-color: #f3edf7; color: var(--brand-main); border-radius: 6px;">
+                                        {{ a.treatment }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-3">
+                                <div class="meta-data-label">Confirmed Schedule</div>
+                                <div class="meta-data-value text-primary small">
+                                    <i class="fas fa-clock me-1"></i> {{ a.date }} | {{ a.time }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+
+            {% endif %}
+
+            <div class="d-flex justify-content-end mt-4">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-history-back px-4">
+                    <i class="fas fa-arrow-left me-2 small"></i>Back to Dashboard
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,470 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 16px;
+        --border-radius-md: 10px;
+        --border-radius-sm: 8px;
+        --transition-smooth: all 0.2s ease-in-out;
+        /* Brand Specific Button Colors */
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-main-hover: hsl(285, 97%, 23%);
+    }
+
+    /* =========================
+        LAYOUT & SIDEBAR (STRETCHED TO BOTTOM)
+    ========================== */
+    .dashboard-wrapper {
+        display: flex;
+        min-height: 100vh;
+        align-items: stretch;
+    }
+
+    .admin-sidebar {
+        background: var(--primary-gradient);
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        padding: 2rem 1.25rem;
+        color: #ffffff;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-brand {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .sidebar-brand i {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+        opacity: 0.95;
+    }
+
+    .sidebar-brand h4 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.85rem 1.25rem;
+        border-radius: var(--border-radius-md);
+        transition: var(--transition-smooth);
+        font-weight: 600;
+    }
+
+    .sidebar-nav-link i {
+        width: 20px;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .sidebar-nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        transform: translateX(4px);
+    }
+
+    .sidebar-nav-link.active {
+        background: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        border-left: 4px solid #ffffff;
+    }
+
+    /* =========================
+        SETTINGS COMPONENTS
+    ========================== */
+    .settings-header-banner {
+        background: var(--header-gradient);
+        color: #ffffff;
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(114, 9, 183, 0.15);
+    }
+
+    .settings-card {
+        border: none;
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        background-color: #ffffff;
+        transition: var(--transition-smooth);
+    }
+
+    .settings-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+    }
+
+    .card-header-custom {
+        background: #f8f9fa;
+        font-weight: 700;
+        color: #2d3748;
+        border-bottom: 1px solid #edf2f7;
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-control-custom, .form-select-custom {
+        border-radius: var(--border-radius-sm);
+        padding: 12px 14px;
+        border: 1px solid #e2e8f0;
+        font-size: 0.95rem;
+        transition: var(--transition-smooth);
+    }
+
+    .form-control-custom:focus, .form-select-custom:focus {
+        border-color: var(--brand-main);
+        box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.12);
+        outline: none;
+    }
+
+    /* Input group design styling for password button integration */
+    .input-group-custom .form-control-custom {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .btn-toggle-password {
+        border: 1px solid #e2e8f0;
+        border-left: none;
+        background: #ffffff;
+        color: #a0aec0;
+        border-top-right-radius: var(--border-radius-sm);
+        border-bottom-right-radius: var(--border-radius-sm);
+        padding: 0 16px;
+        transition: var(--transition-smooth);
+    }
+
+    .btn-toggle-password:hover {
+        color: var(--brand-main);
+        background: #f8f9fa;
+    }
+
+    /* UNIFIED BRAND SUBMIT BUTTONS */
+    .btn-brand-submit {
+        background-color: var(--brand-main) !important;
+        border: 1px solid var(--brand-main) !important;
+        color: #ffffff !important;
+        border-radius: var(--border-radius-sm);
+        padding: 10px 24px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition-smooth);
+    }
+
+    .btn-brand-submit:hover, .btn-brand-submit:focus {
+        background-color: var(--brand-main-hover) !important;
+        border-color: var(--brand-main-hover) !important;
+        box-shadow: 0 4px 12px rgba(114, 9, 183, 0.25) !important;
+    }
+
+    .icon-box-header {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--border-radius-md);
+        background: rgba(255, 255, 255, 0.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 1.25rem;
+    }
+
+    /* ==========================================================================
+       YOUR SPECIFIC MOBILE RESPONSIVE MEDIA QUERIES APPLIED
+       ========================================================================== */
+
+    /* Tablets & Medium viewports */
+    @media (max-width: 768px) {
+        .dashboard-wrapper {
+            flex-direction: column;
+        }
+
+        .admin-sidebar {
+            min-height: auto;
+            width: 100%;
+            padding: 1.5rem 1rem;
+        }
+
+        .sidebar-brand {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+        }
+
+        .sidebar-nav {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .sidebar-nav-link {
+            flex: 1 1 45%;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .settings-header-banner {
+            text-align: center;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+        
+        .settings-card {
+            border-radius: 12px;
+        }
+    }
+
+    /* Mobile Phones */
+    @media (max-width: 576px) {
+        .settings-header-banner {
+            padding: 1rem;
+        }
+
+        .settings-header-banner h2 {
+            font-size: 1.3rem;
+        }
+
+        .settings-header-banner p {
+            font-size: 0.85rem;
+        }
+
+        .sidebar-nav-link {
+            flex: 1 1 100%;
+            font-size: 0.8rem;
+            padding: 0.7rem;
+        }
+    }
+
+    /* Extra small phones */
+    @media (max-width: 400px) {
+        .settings-header-banner h2 {
+            font-size: 1.1rem;
+        }
+
+        .sidebar-nav-link {
+            font-size: 0.75rem;
+        }
+    }
+</style>
+
+<div class="container-fluid p-0">
+    <div class="row g-0 dashboard-wrapper">
+
+        <div class="col-xl-2 col-lg-3 col-md-4 p-0 d-flex flex-column">
+            <aside class="admin-sidebar flex-grow-1">
+                <div class="sidebar-brand">
+                    <i class="fas fa-user-shield text-white"></i>
+                    <h4>Admin Panel</h4>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="{{ url_for('upload_media') }}" class="sidebar-nav-link">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload Media
+                    </a>
+                    <a href="{{ url_for('admin_Reviews') }}" class="sidebar-nav-link">
+                        <i class="fas fa-star"></i> Reviews
+                    </a>
+                    <a href="{{ url_for('admin_settings') }}" class="sidebar-nav-link active">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a href="{{ url_for('admin_trash') }}" class="sidebar-nav-link">
+                        <i class="fas fa-trash-alt"></i> Trash
+                    </a>
+                </nav>
+            </aside>
+        </div>
+
+        <div class="col-xl-10 col-lg-9 col-md-8 p-4 bg-light-subtle">
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="settings-header-banner d-flex align-items-center gap-3 mb-4">
+                <div class="icon-box-header">
+                    <i class="fas fa-sliders-h"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-1">Admin Settings</h2>
+                    <p class="mb-0 opacity-85">Configure and secure system administration credentials</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-6 col-lg-12 mb-4">
+                    <div class="card settings-card">
+                        <div class="card-header-custom">
+                            <i class="fas fa-envelope text-secondary"></i>
+                            <span>Account Email Configuration</span>
+                        </div>
+
+                        <div class="card-body p-4">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="change_email">
+
+                                <div class="mb-4">
+                                    <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider">New Administrative Email</label>
+                                    <input type="email"
+                                           name="email"
+                                           class="form-control form-control-custom"
+                                           value="{{ admin.email }}"
+                                           required>
+                                    <div class="form-text text-muted small mt-2">
+                                        Ensure this email is active to receive security logs and system diagnostic notifications.
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-brand-submit shadow-sm">
+                                    <i class="fas fa-save me-2"></i>Update Email
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-12 mb-4">
+                    <div class="card settings-card">
+                        <div class="card-header-custom">
+                            <i class="fas fa-key text-secondary"></i>
+                            <span>Access Credentials Protection</span>
+                        </div>
+
+                        <div class="card-body p-4">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="change_password">
+
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider">Current Password</label>
+                                    <div class="input-group input-group-custom">
+                                        <input type="password" name="current_password" class="form-control form-control-custom" placeholder="••••••••" required>
+                                        <button class="btn btn-toggle-password" type="button" onclick="togglePasswordVisibility(this)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider">New Security Password</label>
+                                    <div class="input-group input-group-custom">
+                                        <input type="password" name="new_password" class="form-control form-control-custom" placeholder="••••••••" required>
+                                        <button class="btn btn-toggle-password" type="button" onclick="togglePasswordVisibility(this)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider">Confirm Security Password</label>
+                                    <div class="input-group input-group-custom">
+                                        <input type="password" name="confirm_password" class="form-control form-control-custom" placeholder="••••••••" required>
+                                        <button class="btn btn-toggle-password" type="button" onclick="togglePasswordVisibility(this)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-brand-submit shadow-sm">
+                                    <i class="fas fa-shield-alt me-2"></i>Update Password
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-12 col-lg-12 mb-4">
+                    <div class="card settings-card">
+                        <div class="card-header-custom">
+                            <i class="fas fa-share-alt text-secondary"></i>
+                            <span>External Cloud & Media Integration</span>
+                        </div>
+
+                        <div class="card-body p-4">
+                            <form method="POST">
+                                <input type="hidden" name="action" value="update_media_platform">
+
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider">Select Media Provider</label>
+                                        <select name="media_platform" class="form-select form-select-custom w-100" required>
+                                            <option value="" disabled selected>Choose platform...</option>
+                                            <option value="google">Google Drive / Cloud Storage</option>
+                                            <option value="amazon">Amazon AWS S3 Bucket</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-8 mb-3">
+                                        <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider">Access Token / Connection URI</label>
+                                        <input type="text" 
+                                               name="media_credentials" 
+                                               class="form-control form-control-custom" 
+                                               placeholder="Paste API Key, Client ID or Token Endpoint here..." 
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-text text-muted small mb-4">
+                                    <i class="fas fa-info-circle me-1"></i> Submitting this form links or overwrites the storage integration layer for target file paths.
+                                </div>
+
+                                <button type="submit" class="btn btn-brand-submit shadow-sm">
+                                    <i class="fas fa-link me-2"></i>Save Integration Settings
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div> 
+        </div> 
+    </div> 
+</div> 
+
+<script>
+    function togglePasswordVisibility(button) {
+        const input = button.parentElement.querySelector('input');
+        const icon = button.querySelector('i');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,343 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 16px;
+        --border-radius-md: 10px;
+        --border-radius-sm: 8px;
+        --transition-smooth: all 0.2s ease-in-out;
+        --brand-main: hsl(285, 89%, 34%);
+    }
+
+    /* ==========================================
+       LAYOUT & SIDEBAR (STRETCHED TO BOTTOM)
+    ========================================== */
+    .dashboard-wrapper {
+        display: flex;
+        min-height: 100vh;
+        align-items: stretch;
+    }
+
+    .admin-sidebar {
+        background: var(--primary-gradient);
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        padding: 2rem 1.25rem;
+        color: #ffffff;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-brand {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .sidebar-brand i {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+        opacity: 0.95;
+    }
+
+    .sidebar-brand h4 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.85rem 1.25rem;
+        border-radius: var(--border-radius-md);
+        transition: var(--transition-smooth);
+        font-weight: 600;
+    }
+
+    .sidebar-nav-link i {
+        width: 20px;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .sidebar-nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        transform: translateX(4px);
+    }
+
+    .sidebar-nav-link.active {
+        background: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        border-left: 4px solid #ffffff;
+    }
+
+    /* ==========================================
+       TRASH SPECIFIC COMPONENTS DESIGN
+    ========================================== */
+    .trash-header-banner {
+        background: var(--header-gradient);
+        color: #ffffff;
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(114, 9, 183, 0.15);
+    }
+
+    .dashboard-card {
+        border-radius: var(--border-radius-lg);
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+
+    .table-professional tbody tr {
+        transition: var(--transition-smooth);
+    }
+
+    .table-professional tbody tr:hover {
+        background-color: var(--bg-hover) !important;
+    }
+
+    .badge-status {
+        padding: 0.45rem 0.75rem;
+        border-radius: 30px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        display: inline-block;
+    }
+
+    .btn-action-tool {
+        border-radius: var(--border-radius-sm);
+        padding: 0.5rem 0.85rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: var(--transition-smooth);
+    }
+
+    /* ========== MOBILE FIRST APPROACH ========== */
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar default desktop */
+.admin-sidebar {
+    width: 260px;
+    min-height: 100vh;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+}
+
+/* ========== TABLET VIEW ========== */
+@media (max-width: 992px) {
+
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+}
+
+/* ========== MOBILE VIEW ========== */
+@media (max-width: 576px) {
+
+    .sidebar-nav-link {
+        justify-content: center;
+        font-size: 0.9rem;
+    }
+
+    .admin-sidebar {
+        padding: 1rem;
+    }
+
+    .dashboard-header-banner,
+    .trash-header-banner,
+    .settings-header-banner {
+        text-align: center;
+        padding: 1.2rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+}
+</style>
+
+<div class="container-fluid p-0">
+    <div class="row g-0 dashboard-wrapper">
+
+        <div class="col-xl-2 col-lg-3 col-md-4 p-0 d-flex flex-column">
+            <aside class="admin-sidebar flex-grow-1">
+                <div class="sidebar-brand">
+                    <i class="fas fa-tooth text-white"></i>
+                    <h4>Yes Dental</h4>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="{{ url_for('admin_dashboard') }}" class="sidebar-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('admin_settings') }}" class="sidebar-nav-link">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a href="{{ url_for('admin_trash') }}" class="sidebar-nav-link active">
+                        <i class="fas fa-trash-alt"></i> Trash
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="sidebar-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </aside>
+        </div>
+
+        <div class="col-xl-10 col-lg-9 col-md-8 p-4 bg-light-subtle">
+
+            <div class="trash-header-banner d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        <i class="fas fa-trash-alt me-2"></i>Deleted Appointments
+                    </h2>
+                    <p class="mb-0 opacity-85">Manage deleted patient database records safely</p>
+                </div>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light fw-bold px-3 py-2" style="border-radius: 8px; font-size: 0.9rem;">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Live Registry
+                </a>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="card dashboard-card">
+                <div class="card-header bg-white border-bottom py-3 px-4">
+                    <h5 class="mb-0 fw-bold text-dark">Archived Trash Storage</h5>
+                </div>
+
+                <div class="card-body p-0">
+                    {% if appointments %}
+                    <div class="table-responsive">
+                        <table class="table table-professional table-hover align-middle mb-0">
+                            <thead class="table-light text-uppercase">
+                                <tr>
+                                    <th class="ps-4 py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">ID</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Patient</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Contact Details</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Treatment</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Schedule</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Status</th>
+                                    <th class="text-end pe-4 py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for appt in appointments %}
+                                <tr>
+                                    <td class="ps-4 fw-semibold text-secondary">#{{ appt.id }}</td>
+
+                                    <td>
+                                        <div class="fw-bold text-dark mb-1">{{ appt.fullname }}</div>
+                                        <div>
+                                            {% if appt.user_id %}
+                                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 10px; padding: 2px 6px; font-weight: 600;">User</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle" style="font-size: 10px; padding: 2px 6px; font-weight: 600;">Guest</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="text-dark small mb-1"><i class="fas fa-envelope text-muted me-2"></i>{{ appt.email }}</div>
+                                        <div class="text-muted small"><i class="fas fa-phone text-muted me-2"></i>{{ appt.phone }}</div>
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-light text-dark border fw-medium" style="padding: 6px 12px; border-radius: 6px;">
+                                            {{ appt.treatment }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="fw-semibold text-dark mb-1">{{ appt.date }}</div>
+                                        <div class="text-muted small"><i class="far fa-clock me-1"></i>{{ appt.time }}</div>
+                                    </td>
+
+                                    <td>
+                                        <span class="badge badge-status bg-danger-subtle text-danger border border-danger-subtle">Deleted</span>
+                                    </td>
+
+                                    <td class="text-end pe-4">
+                                        <div class="d-flex gap-2 justify-content-end align-items-center">
+                                            
+                                            <a href="{{ url_for('restore_appointment', id=appt.id) }}"
+                                               class="btn btn-outline-success btn-action-tool"
+                                               onclick="return confirm('Restore this appointment record to active lifecycle?');"
+                                               title="Restore Record">
+                                                <i class="fas fa-undo"></i> Restore
+                                            </a>
+
+                                            <a href="{{ url_for('permanently_delete_appointment', id=appt.id) }}"
+                                               class="btn btn-danger btn-action-tool"
+                                               onclick="return confirm('Warning: This action is destructive and irreversible. Expunge completely?');"
+                                               title="Purge Forever">
+                                                <i class="fas fa-trash-alt"></i> Purge
+                                            </a>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-check-circle text-success mb-3 d-block fa-3x opacity-75"></i>
+                        <h4 class="fw-bold text-dark mb-1">Trash Container is Empty</h4>
+                        <p class="small mb-3">No deleted appointment records matched active query data filter.</p>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-dark btn-sm px-4 py-2" style="border-radius: var(--border-radius-sm);">
+                            Go to Dashboard
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div> </div> </div> </div>
+
+{% endblock %}

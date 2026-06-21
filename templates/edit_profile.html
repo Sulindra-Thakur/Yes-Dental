@@ -1,0 +1,311 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 22px;
+        --border-radius-md: 14px;
+        --border-radius-sm: 10px;
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-main-hover: hsl(285, 97%, 25%);
+    }
+
+    /* ==========================================
+       BACKGROUND & LAYOUT CORE SYSTEM
+    ========================================== */
+    body {
+        background: linear-gradient(135deg, #f8f6fa, #f0eaf5);
+        font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    /* EDIT PROFILE HEADER DISPLAY */
+    .edit-profile-title {
+        text-align: center;
+        color: var(--brand-main) !important;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        width: 100%;
+    }
+
+    /* ==========================================
+       MODULAR FORM CARDS ARCHITECTURE
+    ========================================== */
+    .edit-premium-card {
+        border-radius: var(--border-radius-lg);
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(114, 9, 183, 0.04);
+        transition: var(--transition-smooth);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .edit-premium-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: var(--header-gradient);
+        opacity: 0;
+        transition: var(--transition-smooth);
+    }
+
+    .edit-premium-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 45px rgba(114, 9, 183, 0.1);
+    }
+
+    .edit-premium-card:hover::before {
+        opacity: 1;
+    }
+
+    .card-block-title {
+        font-weight: 700;
+        color: #2b242e;
+        font-size: 1.15rem;
+        border-left: 4px solid var(--brand-main);
+        padding-left: 10px;
+    }
+
+    /* ==========================================
+       FORM CONTROL FIELDS INTERFACE
+    ========================================== */
+    .form-control, .form-select {
+        border-radius: var(--border-radius-sm);
+        padding: 11px 14px;
+        border: 1px solid #e2d9e6;
+        background-color: #faf8fb;
+        transition: var(--transition-smooth);
+        color: #333333;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--brand-main);
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(114, 9, 183, 0.12);
+        outline: none;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #4a424d;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .appointment-sub-box {
+        border: 1px solid #f3edf7 !important;
+        border-radius: var(--border-radius-md);
+        background-color: #faf8fb;
+        transition: var(--transition-smooth);
+    }
+    
+    .appointment-sub-box:hover {
+        background-color: #fcf9fe;
+        border-color: #e2d9e6 !important;
+    }
+
+    /* ==========================================
+       DYNAMIC ACTION NAVIGATION BUTTONS
+    ========================================== */
+    .btn-profile-update {
+        background: var(--brand-main) !important;
+        border-color: var(--brand-main) !important;
+        color: #ffffff !important;
+        border-radius: 50px;
+        padding: 10px 28px;
+        font-weight: 600;
+        transition: var(--transition-smooth);
+        box-shadow: 0 4px 15px rgba(114, 9, 183, 0.15);
+    }
+
+    .btn-profile-update:hover {
+        background: var(--brand-main-hover) !important;
+        border-color: var(--brand-main-hover) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(114, 9, 183, 0.25);
+    }
+
+    .btn-appt-update-sm {
+        background: #faf8fb;
+        border: 1px solid var(--brand-main);
+        color: var(--brand-main);
+        font-weight: 600;
+        border-radius: 6px;
+        padding: 6px 16px;
+        transition: var(--transition-smooth);
+    }
+
+    .btn-appt-update-sm:hover {
+        background: var(--brand-main);
+        color: #ffffff;
+    }
+
+    /* FIXED: Solid Purple Background Applied directly with elegant drop shadow */
+    .btn-profile-back {
+        background: var(--brand-main) !important;
+        border: 2px solid var(--brand-main) !important;
+        color: #ffffff !important;
+        border-radius: 50px;
+        padding: 10px 28px;
+        font-weight: 600;
+        transition: var(--transition-smooth);
+        box-shadow: 0 4px 15px rgba(114, 9, 183, 0.15);
+    }
+
+    .btn-profile-back:hover {
+        background: var(--brand-main-hover) !important;
+        border-color: var(--brand-main-hover) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(114, 9, 183, 0.25);
+    }
+
+    /* ALERTS CONFIGURATION */
+    .alert {
+        border-radius: var(--border-radius-md);
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h2 class="edit-profile-title"><i class="fas fa-user-edit me-2 small"></i>Edit Profile Dashboard</h2>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm mb-4">
+                    <i class="fas fa-info-circle me-2"></i> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="card edit-premium-card mb-4">
+        <div class="card-body p-4 p-md-5">
+
+            <h5 class="card-block-title mb-4">Personal Information Engine</h5>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="update_user">
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-control" value="{{ user.name }}" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-profile-update">
+                        <i class="fas fa-save me-1.5 small"></i> Update Profile
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card edit-premium-card mb-4">
+        <div class="card-body p-4 p-md-5">
+
+            <h5 class="card-block-title mb-4">Manage Active Appointments</h5>
+
+            {% for a in appointments %}
+            <div class="border p-4 mb-3 appointment-sub-box shadow-sm">
+
+                <form method="POST">
+                    <input type="hidden" name="action" value="update_appointment">
+                    <input type="hidden" name="appointment_id" value="{{ a.id }}">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Patient Name</label>
+                            <input type="text" name="fullname" class="form-control" value="{{ a.fullname }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Contact Email</label>
+                            <input type="email" name="appt_email" class="form-control" value="{{ a.email }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Treatment Category</label>
+                            <select name="treatment" class="form-select" required>
+                                <option value="Cleaning" {% if a.treatment == 'Cleaning' %}selected{% endif %}>Cleaning</option>
+                                <option value="Root Canal" {% if a.treatment == 'Root Canal' %}selected{% endif %}>Root Canal</option>
+                                <option value="Filling" {% if a.treatment == 'Filling' %}selected{% endif %}>Filling</option>
+                                <option value="Braces" {% if a.treatment == 'Braces' %}selected{% endif %}>Braces</option>
+                                <option value="Extraction" {% if a.treatment == 'Extraction' %}selected{% endif %}>Extraction</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Schedule Date</label>
+                            <input type="date" name="date" class="form-control" value="{{ a.date }}" required>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label">Preferred Hour</label>
+                            <select name="time" class="form-select" required>
+
+                                <option value="10:00 AM" {% if a.time == '7:00 AM' %}selected{% endif %}>07:00 AM</option>
+                                <option value="10:00 AM" {% if a.time == '8:00 AM' %}selected{% endif %}>08:00 AM</option>
+                                <option value="10:00 AM" {% if a.time == '9:00 AM' %}selected{% endif %}>09:00 AM</option>
+                                <option value="10:00 AM" {% if a.time == '10:00 AM' %}selected{% endif %}>10:00 AM</option>
+                                <option value="10:00 AM" {% if a.time == '11:00 AM' %}selected{% endif %}>11:00 AM</option>
+                                <option value="10:00 AM" {% if a.time == '12:00 PM' %}selected{% endif %}>12:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '01:00 PM' %}selected{% endif %}>01:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '02:00 PM' %}selected{% endif %}>02:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '03:00 PM' %}selected{% endif %}>03:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '04:00 PM' %}selected{% endif %}>04:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '05:00 PM' %}selected{% endif %}>05:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '06:00 PM' %}selected{% endif %}>06:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '07:00 PM' %}selected{% endif %}>07:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '08:00 PM' %}selected{% endif %}>08:00 PM</option>
+                                <option value="10:00 AM" {% if a.time == '09:00 PM' %}selected{% endif %}>09:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-appt-update-sm">
+                            <i class="fas fa-sync-alt me-1 small"></i> Update Appointment Data
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted small mb-0"><i class="fas fa-calendar-times me-1 opacity-50"></i> You don't have any modifiable appointments registered.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+        <a href="{{ url_for('my_profile') }}" class="btn btn-profile-back">
+            <i class="fas fa-chevron-left me-1.5 small"></i> Back to Profile
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

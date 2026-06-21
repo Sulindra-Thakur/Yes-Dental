@@ -1,0 +1,916 @@
+{% extends "index.html" %}
+{% block content %}
+<style>
+    /* ==========================================
+       GLOBAL ARCHITECTURE & COLOR MATRIX
+    ========================================== */
+    :root {
+        --primary: hsl(285, 89%, 34%);
+        --primary-dark: hsl(285, 97%, 22%);
+        --accent: #A32CC4;
+        --soft-bg: #fdfbfe;
+        --card-bg: #ffffff;
+        --text-dark: #231c26;
+        --text-muted: #6c5a70;
+        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --shadow-sm: 0 4px 12px rgba(114, 9, 183, 0.03);
+        --shadow-md: 0 10px 30px rgba(114, 9, 183, 0.06);
+        --shadow-lg: 0 20px 40px rgba(114, 9, 183, 0.1);
+    }
+
+    body {
+        background: linear-gradient(135deg, #fbf9fc, #f4eef7);
+        font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+        color: var(--text-dark);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+        max-width: 1400px !important;
+    }
+
+    /* ==========================================
+       TYPOGRAPHY CONFIGURATIONS
+    ========================================== */
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-dark);
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .text-primary {
+        color: var(--primary) !important;
+    }
+
+    /* ==========================================
+       DYNAMIC INTERACTIVE ACTIONS (BUTTONS)
+    ========================================== */
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border: none;
+        border-radius: 12px;
+        padding: 12px 28px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(163, 44, 196, 0.2);
+        transition: var(--transition-smooth);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(163, 44, 196, 0.35);
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    }
+
+    .btn-outline-primary {
+        color: var(--primary);
+        border: 2px solid var(--primary);
+        border-radius: 12px;
+        padding: 8px 20px;
+        font-weight: 600;
+        background: transparent;
+        transition: var(--transition-smooth);
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary);
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(163, 44, 196, 0.15);
+    }
+
+    /* Updated to Solid Purple Background for Hero Secondary Button */
+    .btn-hero-secondary {
+        background: linear-gradient(135deg, var(--accent), var(--primary));
+        border: none;
+        color: #ffffff !important;
+        border-radius: 12px;
+        padding: 12px 28px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(163, 44, 196, 0.2);
+        transition: var(--transition-smooth);
+    }
+
+    .btn-hero-secondary:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(163, 44, 196, 0.35);
+    }
+
+    /* ==========================================
+       PREMIUM HERO FRAMEWORK (CURVE TUNED)
+    ========================================== */
+    .hero-section {
+        border-radius: 0 0 20px 20px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, rgba(35, 28, 38, 0.6), rgba(163, 44, 196, 0.3));
+        z-index: 1;
+    } */
+
+
+    .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to right,
+        rgba(35, 28, 38, 0.08),
+        rgba(163, 44, 196, 0.05)
+    );
+    z-index: 1;
+}
+
+    .hero-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-title{
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+    /* ==========================================
+       MODERN CARD SYSTEM ARCHITECTURE & PURPLE SYNCHRONIZATION
+    ========================================== */
+    .card {
+        background: var(--card-bg);
+        border-radius: 24px;
+        border: 1px solid rgba(163, 44, 196, 0.05);
+        transition: var(--transition-smooth);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(163, 44, 196, 0.12);
+        border-color: rgba(163, 44, 196, 0.3);
+    }
+
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(163, 44, 196, 0.08);
+        color: var(--primary);
+        font-size: 1.6rem;
+        transition: var(--transition-smooth);
+        margin-bottom: 24px;
+    }
+
+    .card:hover .icon-circle {
+        background: var(--primary);
+        color: #ffffff !important;
+        transform: scale(1.05) rotate(5deg);
+    }
+
+    /* Dynamic Icons Mapping */
+    .fa-tooth, .fa-bacterium, .fa-gem, .fa-teeth, .fa-baby, .fa-magic, .fa-teeth-open, .fa-exclamation-triangle, .fa-ambulance, .fa-map-marker-alt, .fa-phone, .fa-envelope, .fa-clock {
+        color: var(--primary);
+    }
+
+    .service-card-title {
+        transition: var(--transition-smooth);
+    }
+
+    .card:hover .service-card-title {
+        color: var(--primary) !important;
+    }
+
+    /* ==========================================
+       EMERGENCY SECTION (PROPORTIONS INCREASED)
+    ========================================== */
+    .bg-danger-custom {
+        background: linear-gradient(90deg, #d32f2f, #f44336) !important;
+        border-radius: 20px;
+        box-shadow: 0 12px 30px rgba(211, 47, 47, 0.25);
+        padding: 2.5rem !important;
+    }
+
+    /* ==========================================
+       ABOUT CLINIC SYSTEM (IMAGE BOOSTED)
+    ========================================== */
+    .about-image-wrapper {
+        position: relative;
+        padding-bottom: 20px;
+        padding-right: 20px;
+        width: 100%;
+    }
+
+    .about-image-box {
+        width: 100%;
+        height: 600px;
+        overflow: hidden;
+        border-radius: 32px;
+        box-shadow: var(--shadow-lg);
+        border: 6px solid #ffffff;
+    }
+
+    .about-floating-card {
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        background: #ffffff;
+        padding: 26px;
+        border-radius: 24px;
+        box-shadow: 0 15px 35px rgba(163, 44, 196, 0.15);
+        border-left: 6px solid var(--primary);
+        max-width: 280px;
+        z-index: 3;
+        animation: floatUpDown 4s ease-in-out infinite;
+    }
+
+    @keyframes floatUpDown {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    .about-badge {
+        background: rgba(163, 44, 196, 0.07);
+        color: var(--primary);
+        font-size: 0.85rem;
+        font-weight: 700;
+        padding: 8px 16px;
+        border-radius: 50px;
+        display: inline-block;
+        letter-spacing: 0.5px;
+    }
+
+    .feature-metric-box {
+        background: #ffffff;
+        border: 1px solid rgba(163, 44, 196, 0.06);
+        border-radius: 20px;
+        padding: 20px;
+        transition: var(--transition-smooth);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .feature-metric-box:hover {
+        border-color: rgba(163, 44, 196, 0.15);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* ==========================================
+       TEAM & MAP MODULE ARCHITECTURES
+    ========================================== */
+    .team-img-wrapper {
+        position: relative;
+        padding-top: 30px;
+        background: linear-gradient(to bottom, #fbf9fc, #ffffff);
+    }
+
+    .team-img {
+        width: 160px;
+        height: 160px;
+        object-fit: cover;
+        border: 5px solid #ffffff;
+        box-shadow: var(--shadow-md);
+        transition: var(--transition-smooth);
+    }
+
+    .card:hover .team-img {
+        transform: scale(1.05);
+        border-color: rgba(163, 44, 196, 0.2);
+    }
+
+    .map-ratio-wrapper {
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 4px solid #ffffff;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .btn-history-custom{
+    margin-right: 75px;
+    background-color: #A32CC4;
+    color: white !important;
+    border-radius: 50px;
+    padding: 12px 24px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-history-custom:hover{
+    background-color: #8a1fb0;
+    color: white !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(163, 44, 196, 0.35);
+}
+
+.btn-history-custom:hover i{
+    transform: translateX(5px);
+    transition: transform 0.3s ease;
+}
+
+/* ==========================================
+   HERO SECTION RESPONSIVE SYSTEM
+========================================== */
+
+/* Desktop Large */
+.hero-section {
+    min-height: 85dvh;
+}
+
+/* Large Tablets / Small Laptops */
+@media (max-width: 1024px) {
+
+    .hero-section {
+        min-height: 80dvh;
+        height: auto !important;
+    }
+
+    .hero-section h1 {
+        font-size: 3rem !important;
+        line-height: 1.15;
+    }
+
+    .hero-section .lead {
+        font-size: 1.1rem;
+        max-width: 550px !important;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+
+    .hero-section {
+        min-height: 100dvh;
+        height: auto !important;
+        padding: 80px 20px;
+        background-position: center center !important;
+        background-size: cover !important;
+    }
+
+    .hero-section .container {
+        text-align: center !important;
+    }
+
+    .hero-section .row {
+        justify-content: center;
+    }
+
+    .hero-section .col-lg-8,
+    .hero-section .col-xl-7 {
+        margin-left: 0 !important;
+    }
+
+    .hero-section h1 {
+        font-size: 2.7rem !important;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+    }
+
+    .hero-section .lead {
+        margin: 0 auto 2rem;
+        font-size: 1rem;
+        max-width: 100% !important;
+    }
+
+    .hero-section .badge {
+        font-size: 0.8rem;
+    }
+
+    .hero-section .btn {
+        min-width: 220px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+
+    .hero-section {
+        min-height: 100dvh;
+        height: auto !important;
+        padding: 90px 20px 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-section h1 {
+        font-size: 2.1rem !important;
+        line-height: 1.15;
+    }
+
+    .hero-section .lead {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 1.8rem !important;
+    }
+
+    .hero-section .badge {
+        font-size: 0.75rem;
+        padding: 8px 12px !important;
+    }
+
+    .hero-section .d-flex {
+        width: 100%;
+        align-items: center;
+    }
+
+    .hero-section .btn {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        padding: 14px 20px !important;
+        font-size: 0.95rem;
+    }
+}
+
+/* Samsung S21 FE, iPhone 12/13/14 */
+@media (max-width: 400px) {
+
+    .hero-section {
+        min-height: 100dvh;
+        padding: 70px 15px 40px;
+    }
+
+    .hero-section h1 {
+        font-size: 1.8rem !important;
+        line-height: 1.1;
+    }
+
+    .hero-section .lead {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    .hero-section .badge {
+        font-size: 0.68rem;
+    }
+
+    .hero-section .btn {
+        max-width: 100%;
+        font-size: 0.88rem;
+    }
+}
+
+</style>
+
+<!-- 1. HERO SECTION -->
+<section class="hero-section text-white d-flex align-items-center"
+    style="
+    background:
+    linear-gradient(
+        rgba(255,255,255,0.18),
+        rgba(255,255,255,0.18)
+    ),
+    url('{{ url_for('static', filename='LOGO/hero2.jpeg') }}')
+    no-repeat center center;
+    background-size: cover;
+    min-height: 85dvh;">
+    <div class="hero-overlay"></div>
+    <div class="container text-center text-md-start">
+        <div class="row">
+            <div class="col-lg-8 col-xl-7 mx-auto mx-md-0">
+                <div class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm"> 
+                    <i class="fas fa-award me-1"></i> #1 Rated Dental Clinic in the City 
+                </div>
+                <h1 class="hero-title display-3 fw-bold text-white mb-4" style="text-shadow: 0 4px 15px rgba(0,0,0,0.15);">Your Smile,<br>Our Passion.</h1>
+                <p class="lead text-white mb-5" style="max-width: 650px; line-height: 1.7; opacity: 0.95; font-weight: 400; text-shadow: 0 2px 8px rgba(0,0,0,0.45);">
+                    Experience world-class dental care with advanced technology and a gentle touch. 
+                    From routine check-ups to complex smile makeovers, we are here for you.
+                </p>
+                <div class="d-flex flex-column flex-sm-row gap-3">
+                    <a href="{{ url_for('booking_page') }}" class="btn btn-primary btn-lg px-4 py-3 shadow">Book Appointment</a>
+                    <!-- Filled Solid Purple Background Button below -->
+                    <a href="{{ url_for('services') }}" class="btn btn-hero-secondary btn-lg px-4 py-3 shadow">Our Services</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 11. EMERGENCY BANNER -->
+<div class="container my-5">
+    <div class="bg-danger-custom text-white">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
+            <div class="d-flex align-items-center">
+                <div class="bg-white bg-opacity-20 rounded-circle p-3 me-4 d-inline-flex align-items-center justify-content-center" style="min-width: 70px; min-height: 70px;">
+                    <i class="fas fa-ambulance fa-2x text-white"></i>
+                </div>
+                <div>
+                    <h3 class="mb-1 fw-bold">Yes Dental Emergency?</h3>
+                    <p class="text-white-50 mb-0 fs-5">We offer same-day emergency appointments for critical states.</p>
+                </div>
+            </div>
+            <a href="tel:+1234567890" class="btn btn-light btn-lg text-danger fw-bold shadow-sm px-5 py-3 fs-5 rounded-3">
+                <i class="fas fa-phone-alt me-2"></i>01-5923492 / +977-9705653492
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 2. ABOUT CLINIC -->
+<section class="py-5 my-4">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            <!-- IMAGE SIDE -->
+            <div class="col-lg-6">
+                <div class="about-image-wrapper">
+                    <div class="about-image-box">
+                        <img src="{{ url_for('static', filename='logo/about3.png') }}" 
+                             alt="Clinic Interior" 
+                             class="about-img img-fluid h-100 w-100 object-fit-cover">
+                    </div>
+                    <div class="about-floating-card d-none d-sm-block">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 text-primary">
+                                <i class="fas fa-certificate fa-2x"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold text-primary mb-0">3+</h4>
+                                <small class="text-muted fw-semibold">Years of Dynamic Glory</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEXT SIDE -->
+            <div class="col-lg-6 ps-xl-5">
+                <span class="about-badge mb-3 text-uppercase">Welcome to Yes Dental</span>
+                <h2 class="fw-bold mb-4 display-6" style="letter-spacing: -1px; line-height: 1.2;">Compassionate Care for <br><span class="text-primary">Your Entire Family</span></h2>
+
+                <div class="text-muted mb-4" style="line-height: 1.8; font-size: 1rem;" ">
+                    <p class="mb-3" style="text-align: left;">At <strong>Yes Dental </strong>, we are deeply committed to making every single visit comfortable, seamless, and entirely stress-free. Since our establishment in 2023, we have proudly served our local resident and community with modern dental diagnostic strategies.</p>
+                    <p class="mb-0" style="text-align: left ;">Our facility coordinates premium dental infrastructure with a gentle, patient-first methodology. From simple prophylactic scaling to complete structural rehabilitation (Dental implants), we promise beautiful and long-lasting transformations.</p>
+                </div>
+
+                <!-- METRIC GRID MODULES -->
+                <div class="row g-3 mt-2">
+                    <div class="col-sm-6">
+                        <div class="feature-metric-box d-flex align-items-center gap-3">
+                            <div class="bg-success bg-opacity-10 text-success rounded-3 p-2 px-3"><i class="fas fa-smile fa-lg"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-0">5000+</h6>
+                                <small class="text-muted">Happy Smiles</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="feature-metric-box d-flex align-items-center gap-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-3 p-2 px-3"><i class="fas fa-user-md fa-lg"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-0">Certified</h6>
+                                <small class="text-muted">Expert Specialists</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 pt-2">
+                    <a href="{{ url_for('about') }}" class="btn btn-primary px-4 py-2.5">Learn More About Us</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 3. SERVICES SECTION -->
+<section class="py-5 bg-light" style="border-radius: 50px 50px 0 0;">
+    <div class="container">
+
+        <div class="text-center mb-5 max-w-600 mx-auto">
+            <h6 class="text-primary fw-bold text-uppercase tracking-wider mb-2">Our Services</h6>
+            <h2 class="fw-bold display-6">Comprehensive Dental Solutions</h2>
+            <p class="text-muted w-75 mx-auto mt-2">
+                From routine cleanings to advanced cosmetic procedures, we offer a full range of services.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            {% set services = [
+                {'icon': 'fa-tooth', 'title': 'Dental Implants', 'desc': 'Permanent solutions for missing teeth.'},
+                {'icon': 'fa-bacterium', 'title': 'Root Canal (RCT)', 'desc': 'Painless treatment to save your tooth.'},
+                {'icon': 'fa-gem', 'title': 'Teeth Whitening', 'desc': 'Brighten your smile in one visit.'},
+                {'icon': 'fa-teeth', 'title': 'Braces & Aligners', 'desc': 'Straighten your teeth discreetly.'},
+                {'icon': 'fa-baby', 'title': 'Pediatric Dentistry', 'desc': 'Gentle care for your little ones.'},
+                {'icon': 'fa-magic', 'title': 'Cosmetic Dentistry', 'desc': 'Complete smile makeovers.'},
+                {'icon': 'fa-teeth-open', 'title': 'Crowns & Bridges', 'desc': 'Restore function and aesthetics.'},
+                {'icon': 'fa-exclamation-triangle', 'title': 'Tooth Extraction', 'desc': 'Safe and painless removal.'}
+            ] %}
+
+            {% for service in services %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 p-2 text-center text-sm-start">
+                    <div class="card-body p-4">
+                        <div class="icon-circle mx-auto mx-sm-0">
+                            <i class="fas {{ service.icon }}"></i>
+                        </div>
+                        <h5 class="card-title service-card-title fw-bold mb-3">{{ service.title }}</h5>
+                        <p class="card-text text-muted small mb-0" style="line-height: 1.6;">{{ service.desc }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+                        
+<!-- 5. TEAM SECTION -->
+<section class="py-5 bg-light" style="border-radius: 0 0 50px 50px;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h6 class="text-primary fw-bold text-uppercase tracking-wider mb-2">Our Team</h6>
+            <h2 class="fw-bold display-6">Meet Our Specialists</h2>
+        </div>
+        <div class="row g-4">
+            
+            <!-- Doctor 1 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 text-center">
+                    <div class="team-img-wrapper">
+                        <img src="{{ url_for('static', filename='logo/birendra1.jpeg') }}" 
+                             class="rounded-circle mx-auto d-block team-img" alt="Dr. Birendra">
+                    </div>
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-1">Dr. Birendra Kumar Thakur</h5>
+                        <p class="text-primary small fw-semibold mb-2">Periodontology and Oral Implantology (JR)</p>
+                        <span class="badge bg-purple bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-1 d-inline-block">BDS (BPKIHS)</span>
+                        <p class="text-muted x-small mb-4">NMC NO. 32846</p>
+                        
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="https://www.linkedin.com/in/dr-birendra-thakur-9bb5a7a3?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                               class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://x.com/Birendra_st"
+                               class="btn btn-sm btn-outline-primary" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor 2 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 text-center">
+                    <div class="team-img-wrapper">
+                        <img src="{{ url_for('static', filename='logo/sanjay.jpeg') }}" 
+                             class="rounded-circle mx-auto d-block team-img" alt="Dr. Sanjay">
+                    </div>
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-1">Dr. Sanjay Ranjit</h5>
+                        <p class="text-primary small fw-semibold mb-2">Consultant Endodontist</p>
+                        <span class="badge bg-purple bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-1 d-inline-block">MDS (AIMS), BDS (BPKIHS)</span>
+                        <p class="text-muted x-small mb-4">NMC NO. 13464</p>
+                       
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Doctor 3 -->
+            <div class="col-md-4">
+                <div class="card h-100 border-0 text-center">
+                    <div class="team-img-wrapper">
+                         <img src="{{ url_for('static', filename='logo/te.jpeg') }}" 
+                              class="rounded-circle mx-auto d-block team-img" alt="Dr. Tekendra">
+                    </div>
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-1">Dr. Tekendra Chaulagain</h5>
+                        <p class="text-primary small fw-semibold mb-2">Consultant Orthodontist</p>
+                        <span class="badge bg-purple bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-1 d-inline-block">MDS (Teaching Hospital), BDS (TU)</span>
+                        <p class="text-muted x-small mb-4">NMC NO. 13460</p>
+                       
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+                <a href="{{ url_for('team') }}" class="btn btn-history-custom px-4" >
+                    More Details  <i class="fas fa-arrow-right me-2 small"></i>
+                </a>
+            </div>
+
+</section>
+
+<!-- 7. TESTIMONIALS -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h6 class="text-primary fw-bold text-uppercase tracking-wider mb-2">Reviews</h6>
+            <h2 class="fw-bold display-6">What Our Patients Say</h2>
+        </div>
+        <div class="row g-4">
+            
+            <!-- Card 1 -->
+            <div class="col-md-4">
+                <div class="card border-0 h-100 p-4 justify-content-between">
+                    <div>
+                        <div class="text-warning mb-3">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="fst-italic text-muted small mb-4" style="line-height: 1.7;">
+                            "Highly recommended "Yes Dental.PVT.LDT.NEPAL"!! have LOTS of anxiety about going to the dentist after this visit, i have become an advocate. Dr.Birendra Thakur and his associates were amazing. they made me feel comfortable and i believe the treatment plan is actionable and has my best interest in mind."
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center border-top pt-3">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 45px; height: 45px; min-width: 45px; background-color: #8a1fb0 !important;" >ST</div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 fw-bold small">Surendra Thakur</h6>
+                            <small class="text-white-50 bg-primary px-2 py-0.5 rounded-pill x-small d-inline-block mt-1" style="background-color: #8a1fb0 !important;">Patient</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-4">
+                <div class="card border-0 h-100 p-4 justify-content-between">
+                    <div>
+                        <div class="text-warning mb-3">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="fst-italic text-muted small mb-4" style="line-height: 1.7;">
+                            "Best Dentist in Town. Felt like butter with superb outcome."
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center border-top pt-3">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 45px; height: 45px; min-width: 45px; background-color: #8a1fb0 !important;">NS</div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 fw-bold small">Nabin Sah</h6>
+                            <small class="text-white-50 bg-primary px-2 py-0.5 rounded-pill x-small d-inline-block mt-1" style="background-color: #8a1fb0 !important;">Patient</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-4">
+                <div class="card border-0 h-100 p-4 justify-content-between">
+                    <div>
+                        <div class="text-warning mb-3">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="fst-italic text-muted small mb-4" style="line-height: 1.7;">
+                            "My Doctor was Dr.Birendra, He is frank and makes patients comfortable."
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center border-top pt-3">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 45px; height: 45px; min-width: 45px; background-color: #8a1fb0 !important;">PS</div>
+                        <div class="ms-3">
+                            <h6 class="mb-0 fw-bold small">Prashamsha Shreshtha</h6>
+                            <small class="text-white-50 bg-primary px-2 py-0.5 rounded-pill x-small d-inline-block mt-1" style="background-color: #8a1fb0 !important;">Patient</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 10. SEO & BLOG -->
+<section class="py-5 bg-light" style="border-radius: 40px;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h6 class="text-primary fw-bold text-uppercase tracking-wider mb-2">Education</h6>
+            <h2 class="fw-bold display-6">Latest Dental Tips</h2>
+        </div>
+        <div class="row g-4">
+            
+            <!-- Blog 1 -->
+            <div class="col-md-4">
+                <div class="card border-0 h-100 img-hover-card">
+                    <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=400" class="card-img-top" alt="Teeth Whitening Structure">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-2">How to Whiten Your Teeth Naturally?</h5>
+                        <p class="card-text text-muted small mb-4" style="line-height: 1.6;">Discover safe and effective methods to brighten your smile at home securely.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none small">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 2 -->
+            <div class="col-md-4">
+                <div class="card border-0 h-100 img-hover-card">
+                    <img src="{{ url_for('static', filename='logo/latent1.png') }}" class="card-img-top" alt="Kids Dental Health">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-2">Importance of Pediatric Dentistry</h5>
+                        <p class="card-text text-muted small mb-4" style="line-height: 1.6;">Why early dental visits are crucial for your child's long-term visual oral health.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none small">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog 3 -->
+            <div class="col-md-4">
+                <div class="card border-0 h-100 img-hover-card">
+                    <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&q=80&w=400" class="card-img-top" alt="Dental Implants Guide">
+                    <div class="card-body p-4">
+                        <h5 class="card-title fw-bold mb-2">Understanding Dental Implants</h5>
+                        <p class="card-text text-muted small mb-4" style="line-height: 1.6;">A complete absolute guide to replacing missing teeth with modern secure implants.</p>
+                        <a href="#" class="text-primary fw-bold text-decoration-none small">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 6. LOCATION & CONTACT -->
+<section class="py-5 mb-4">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            
+            <div class="col-lg-6">
+                <h6 class="text-primary fw-bold text-uppercase tracking-wider mb-2">Connect Matrix</h6>
+                <h2 class="fw-bold display-6 mb-5">Visit Our Clinic</h2>
+                
+                <!-- Info 1 -->
+                <div class="d-flex mb-4">
+                    <div class="bg-primary bg-opacity-10 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 55px; height: 55px; min-width: 55px;">
+                        <i class="fas fa-map-marker-alt fa-lg"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Clinic Address</h5>
+                        <p class="text-muted mb-0 small fw-semibold" style="line-height: 1.4;">Shantinagar-31, New Baneshwor<br>(Infront of NABIL BANK), Kathmandu, Nepal 44600</p>
+                    </div>
+                </div>
+
+                <!-- Info 2 -->
+                <div class="d-flex mb-4">
+                    <div class="bg-primary bg-opacity-10 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 55px; height: 55px; min-width: 55px;">
+                        <i class="fas fa-phone fa-lg"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Phone</h5>
+                        <p class="text-muted mb-0">01-5923492 <span class="mx-2">|</span> +977-9705653492</p>
+                    </div>
+                </div>
+
+                <!-- Info 3 -->
+                <div class="d-flex mb-4">
+                    <div class="bg-primary bg-opacity-10 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 55px; height: 55px; min-width: 55px;">
+                        <i class="fas fa-envelope fa-lg"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Email Addresses</h5>
+                        <p class="text-muted mb-0">Yesdental0001@gmail.com</p>
+                    </div>
+                </div>
+
+                <!-- Info 4 -->
+                <div class="d-flex mb-0">
+                    <div class="bg-primary bg-opacity-10 rounded-3 p-3 me-3 d-flex align-items-center justify-content-center" style="width: 55px; height: 55px; min-width: 55px;">
+                        <i class="fas fa-clock fa-lg"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">Working Hours</h5>
+                        <p class="text-muted mb-0">Mon - Sun: 7:00 AM - 9:00 PM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAP MODULE -->
+            <div class="col-lg-6">
+                <div class="p-3 px-4 bg-white d-flex align-items-center justify-content-between border-bottom">
+                    <span class="text-dark fw-bold small"><i class="fas fa-compass text-brand-purple me-2"></i>Interactive Clinic Locator</span>
+                    <a href="https://maps.app.goo.gl/uMAX6v5vJ19fSRcaA" target="_blank" class="text-decoration-none text-link-maps small">
+                        View Map Fullscreen <i class="fas fa-arrow-up-right-from-square ms-1 small"></i>
+                    </a>
+                </div>
+                <div class="ratio ratio-21x9 ratio-md-16x9" style="min-height: 240px;">
+                    <iframe src="https://www.google.com/maps?q=Kathmandu,Nepal&output=embed" allowfullscreen loading="lazy" style="border:0; filter: grayscale(10%) contrast(102%);"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

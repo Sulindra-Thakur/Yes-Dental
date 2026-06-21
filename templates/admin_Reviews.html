@@ -1,0 +1,364 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 16px;
+        --border-radius-md: 10px;
+        --border-radius-sm: 8px;
+        --transition-smooth: all 0.2s ease-in-out;
+        --brand-main: hsl(285, 89%, 34%);
+    }
+
+    /* ==========================================
+       LAYOUT & SIDEBAR (STRETCHED TO BOTTOM)
+    ========================================== */
+    .dashboard-wrapper {
+        display: flex;
+        min-height: 100vh;
+        align-items: stretch;
+    }
+
+    .admin-sidebar {
+        background: var(--primary-gradient);
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        padding: 2rem 1.25rem;
+        color: #ffffff;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-brand {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .sidebar-brand i {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+        opacity: 0.95;
+    }
+
+    .sidebar-brand h4 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.85rem 1.25rem;
+        border-radius: var(--border-radius-md);
+        transition: var(--transition-smooth);
+        font-weight: 600;
+    }
+
+    .sidebar-nav-link i {
+        width: 20px;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .sidebar-nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        transform: translateX(4px);
+    }
+
+    .sidebar-nav-link.active {
+        background: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        border-left: 4px solid #ffffff;
+    }
+
+    /* ==========================================
+       REVIEWS SPECIFIC COMPONENTS DESIGN
+    ========================================== */
+    .reviews-header-banner {
+        background: var(--header-gradient);
+        color: #ffffff;
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(114, 9, 183, 0.15);
+    }
+
+    .dashboard-card {
+        border-radius: var(--border-radius-lg);
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+
+    .table-professional tbody tr {
+        transition: var(--transition-smooth);
+    }
+
+    .table-professional tbody tr:hover {
+        background-color: var(--bg-hover) !important;
+    }
+
+    .btn-action-tool {
+        border-radius: var(--border-radius-sm);
+        padding: 0.5rem 0.85rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: var(--transition-smooth);
+    }
+
+    /* =====================================
+   REVIEWS ADMIN PAGE RESPONSIVE SYSTEM
+===================================== */
+
+/* Large tablets / small laptops */
+@media (max-width: 1024px) {
+    .reviews-header-banner {
+        padding: 1.5rem;
+    }
+
+    .sidebar-brand h4 {
+        font-size: 1.1rem;
+    }
+
+    .btn-action-tool {
+        font-size: 0.8rem;
+        padding: 0.45rem 0.7rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    .dashboard-wrapper {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        min-height: auto;
+        width: 100%;
+    }
+
+    .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sidebar-nav-link {
+        flex: 1 1 45%;
+        justify-content: center;
+        font-size: 0.85rem;
+    }
+
+    .reviews-header-banner {
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .dashboard-card {
+        border-radius: 12px;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .reviews-header-banner {
+        padding: 1rem;
+    }
+
+    .reviews-header-banner h2 {
+        font-size: 1.3rem;
+    }
+
+    .reviews-header-banner p {
+        font-size: 0.85rem;
+    }
+
+    .sidebar-nav-link {
+        flex: 1 1 100%;
+        font-size: 0.8rem;
+        padding: 0.7rem;
+    }
+
+    table thead {
+        font-size: 0.7rem;
+    }
+
+    td, th {
+        white-space: nowrap;
+    }
+
+    td:nth-child(5) {
+        max-width: 180px !important;
+    }
+
+    .btn-action-tool {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .reviews-header-banner a {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 400px) {
+    .reviews-header-banner h2 {
+        font-size: 1.1rem;
+    }
+
+    .sidebar-nav-link {
+        font-size: 0.75rem;
+    }
+}
+</style>
+
+<div class="container-fluid p-0">
+    <div class="row g-0 dashboard-wrapper">
+
+        <div class="col-xl-2 col-lg-3 col-md-4 p-0 d-flex flex-column">
+            <aside class="admin-sidebar flex-grow-1">
+                <div class="sidebar-brand">
+                    <i class="fas fa-tooth text-white"></i>
+                    <h4>Yes Dental</h4>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="{{ url_for('admin_dashboard') }}" class="sidebar-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('admin_Reviews') }}" class="sidebar-nav-link active">
+                        <i class="fas fa-star"></i> Reviews
+                    </a>
+                    <a href="{{ url_for('admin_settings') }}" class="sidebar-nav-link">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a href="{{ url_for('admin_trash') }}" class="sidebar-nav-link">
+                        <i class="fas fa-trash-alt"></i> Trash
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="sidebar-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </aside>
+        </div>
+
+        <div class="col-xl-10 col-lg-9 col-md-8 p-4 bg-light-subtle">
+
+            <div class="reviews-header-banner d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        <i class="fas fa-comments me-2"></i>Client Reviews & Messages
+                    </h2>
+                    <p class="mb-0 opacity-85">Manage all customer feedback and clinic communications safely</p>
+                </div>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light fw-bold px-3 py-2" style="border-radius: 8px; font-size: 0.9rem;">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                </a>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="card dashboard-card">
+                <div class="card-header bg-white border-bottom py-3 px-4">
+                    <h5 class="mb-0 fw-bold text-dark">Live Feedback Feed</h5>
+                </div>
+
+                <div class="card-body p-0">
+                    {% if reviews %}
+                    <div class="table-responsive">
+                        <table class="table table-professional table-hover align-middle mb-0">
+                            <thead class="table-light text-uppercase">
+                                <tr>
+                                    <th class="ps-4 py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">ID</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Name</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Email</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Subject</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Message</th>
+                                    <th class="py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Date</th>
+                                    <th class="text-end pe-4 py-3 text-secondary" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px;">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for review in reviews %}
+                                <tr>
+                                    <td class="ps-4 fw-bold text-secondary">#{{ review.id }}</td>
+                                    
+                                    <td class="fw-semibold text-dark">{{ review.name }}</td>
+                                    
+                                    <td class="text-muted small">
+                                        <i class="fas fa-envelope me-1 opacity-50"></i>{{ review.email }}
+                                    </td>
+                                    
+                                    <td class="text-dark fw-medium">{{ review.subject }}</td>
+                                    
+                                    <td style="max-width: 300px; white-space: pre-wrap;" class="small text-secondary">
+                                        {{ review.message }}
+                                    </td>
+                                    
+                                    <td class="text-muted small">
+                                        {{ review.created_at.strftime('%d-%m-%Y') }}
+                                    </td>
+
+                                    <td class="text-end pe-4">
+                                        <a href="{{ url_for('delete_review', id=review.id) }}"
+                                           class="btn btn-danger btn-action-tool"
+                                           onclick="return confirm('Are you sure you want to delete this review?');"
+                                           title="Delete Review">
+                                            <i class="fas fa-trash-alt"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-inbox text-secondary mb-3 d-block fa-3x opacity-50"></i>
+                        <h4 class="fw-bold text-dark mb-1">No Reviews Found</h4>
+                        <p class="small mb-0">Customer feedback inbox is currently empty.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div> </div> </div> </div>
+
+{% endblock %}

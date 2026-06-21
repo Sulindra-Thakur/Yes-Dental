@@ -1,0 +1,346 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 22%));
+        --border-radius-lg: 24px;
+        --border-radius-md: 16px;
+        --border-radius-sm: 12px;
+        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --brand-main: hsl(285, 89%, 34%);
+        --purple-glow: rgba(114, 9, 183, 0.06);
+    }
+
+    body {
+        background: linear-gradient(135deg, #f9f8fa, #f2edf7);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================
+       PAGE CORE STRUCTURE & CONTAINER
+    ========================================== */
+    .page-bg {
+        background: #ffffff;
+        border-radius: var(--border-radius-lg);
+        padding: 40px;
+        box-shadow: 0 12px 40px rgba(114, 9, 183, 0.03);
+        border: 1px solid rgba(114, 9, 183, 0.04);
+    }
+
+    /* PREMIUM HERO SEGMENT SYSTEM */
+    .blog-header {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 65px 24px;
+        border-radius: var(--border-radius-md);
+        margin-bottom: 45px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(114, 9, 183, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .blog-header h1 {
+        font-size: 2.8rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+    .blog-header p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    /* SECTION CONTROL HEADER TITLES */
+    .section-title {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 28px;
+        color: #231c26;
+        font-weight: 800;
+        letter-spacing: -0.3px;
+    }
+
+    .section-title::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+        width: 45px;
+        height: 4px;
+        background: var(--primary-gradient);
+        border-radius: 10px;
+    }
+
+    /* ==========================================
+       GALLERY HOVER CARD ARCHITECTURE
+    ========================================== */
+    .gallery-card {
+        overflow: hidden;
+        border-radius: var(--border-radius-md);
+        transition: var(--transition-smooth);
+        background: #ffffff;
+        position: relative;
+        border: 1px solid rgba(114, 9, 183, 0.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    }
+
+    .gallery-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(114, 9, 183, 0.12);
+        border-color: rgba(114, 9, 183, 0.15);
+    }
+
+    .gallery-card img,
+    .gallery-card video {
+        transition: var(--transition-smooth);
+        width: 100%;
+        display: block;
+    }
+
+    .gallery-card:hover img,
+    .gallery-card:hover video {
+        transform: scale(1.05);
+    }
+
+    /* DYNAMIC VIDEO MEDIA CONTAINER OVERLAY */
+    .video-card-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .video-card-wrapper::after {
+        content: '\f144';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #ffffff;
+        font-size: 2.2rem;
+        opacity: 0.85;
+        text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        transition: var(--transition-smooth);
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .gallery-card:hover .video-card-wrapper::after {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.15);
+        color: #fdf8ff;
+    }
+
+    /* FEATURED SPLIT COMPONENT LAYOUTS */
+    .media-wrapper {
+        display: flex;
+        gap: 24px;
+        margin-top: 20px;
+        margin-bottom: 45px;
+    }
+
+    .media-box {
+        flex: 1;
+        height: 420px;
+        border-radius: var(--border-radius-md);
+        overflow: hidden;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+        border: 1px solid rgba(114, 9, 183, 0.05);
+        transition: var(--transition-smooth);
+    }
+    
+    .media-box:hover {
+        box-shadow: 0 15px 35px rgba(114, 9, 183, 0.08);
+    }
+
+    .media-box img,
+    .media-box video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* MODERN SIDE-BY-SIDE INTEGRATION SYSTEM */
+    .media-grid {
+        margin-top: 40px;
+        background: #ffffff;
+        border-radius: var(--border-radius-md);
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(114, 9, 183, 0.03);
+        border: 1px solid rgba(114, 9, 183, 0.05);
+    }
+
+    .border-end {
+        border-right: 1px solid #f2edf5 !important;
+    }
+
+    /* MODAL INTERFACE DESIGN RULES */
+    .modal-content {
+        border: none;
+        border-radius: var(--border-radius-lg);
+        overflow: hidden;
+        background-color: #0b070d;
+    }
+
+    #modalImage,
+    #modalVideo {
+        max-height: 82vh;
+        object-fit: contain;
+        border-radius: var(--border-radius-md);
+    }
+
+    /* RESPONSIVE LAYOUT BREAKPOINTS */
+    @media(max-width: 768px) {
+        .media-wrapper {
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .media-box {
+            height: 300px;
+        }
+
+        .border-end {
+            border-right: none !important;
+            border-bottom: 1px solid #f2edf5 !important;
+        }
+        
+        .page-bg {
+            padding: 20px 15px;
+        }
+        
+        .blog-header {
+            padding: 45px 16px;
+        }
+        
+        .blog-header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="container py-5">
+    <div class="page-bg">
+
+        <!-- HEADER HERO -->
+        <div class="blog-header">
+            <h1>Dental Blogs Gallery</h1>
+            <p class="mb-0">Explore High-Quality Images & Case Videos From Our Clinic</p>
+        </div>
+
+        <!-- FEATURED SECTION ENGINE -->
+        {% if images|length > 0 and videos|length > 0 %}
+        <h3 class="section-title">Featured Showcase</h3>
+
+        <div class="media-wrapper">
+            <div class="media-box">
+                <img src="{{ url_for('static', filename='images/' + images[0]) }}" alt="Featured Clinical Slide">
+            </div>
+
+            <div class="media-box">
+                <video controls>
+                    <source src="{{ url_for('static', filename='videos/' + videos[0]) }}" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- SIDE BY SIDE GRID INFRASTRUCTURE -->
+        <div class="row g-0 mt-4 media-grid">
+
+            <!-- LEFT REGION: DYNAMIC IMAGES -->
+            <div class="col-md-6 p-4 p-md-5 border-end">
+                <h3 class="section-title mb-4"><i class="fas fa-camera text-brand-purple me-2"></i>Captured Cases</h3>
+
+                <div class="row g-3">
+                    {% for image in images %}
+                    <div class="col-6">
+                        <div class="card gallery-card border-0">
+                            <img src="{{ url_for('static', filename='images/' + image) }}"
+                                 class="w-100"
+                                 style="height:190px; object-fit:cover; cursor:pointer;"
+                                 data-bs-toggle="modal"
+                                 data-bs-target="#imageModal"
+                                 onclick="showImage('{{ url_for('static', filename='images/' + image) }}')">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- RIGHT REGION: DYNAMIC VIDEOS -->
+            <div class="col-md-6 p-4 p-md-5">
+                <h3 class="section-title mb-4"><i class="fas fa-play-circle text-brand-purple me-2"></i>Video Guides</h3>
+
+                <div class="row g-3">
+                    {% for video in videos %}
+                    <div class="col-6">
+                        <div class="card gallery-card border-0">
+                            <div class="video-card-wrapper">
+                                <video class="w-100"
+                                       style="height:190px; object-fit:cover; cursor:pointer;"
+                                       onclick="showVideo('{{ url_for('static', filename='videos/' + video) }}')"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#videoModal">
+                                    <source src="{{ url_for('static', filename='videos/' + video) }}" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- IMAGE CONFIGURATION MODAL -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-2 d-flex justify-content-center align-items-center">
+                <img id="modalImage" class="img-fluid w-100">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- VIDEO CONFIGURATION MODAL -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-2 d-flex justify-content-center align-items-center">
+                <video id="modalVideo" class="w-100" controls autoplay>
+                    <source id="videoSource" src="" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showImage(src){
+    document.getElementById("modalImage").src = src;
+}
+
+function showVideo(src){
+    const video = document.getElementById("modalVideo");
+    const source = document.getElementById("videoSource");
+
+    source.src = src;
+    video.load();
+}
+</script>
+
+{% endblock %}

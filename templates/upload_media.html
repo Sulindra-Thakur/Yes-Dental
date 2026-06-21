@@ -1,0 +1,287 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 16px;
+        --border-radius-md: 10px;
+        --border-radius-sm: 8px;
+        --transition-smooth: all 0.2s ease-in-out;
+        --brand-main: hsl(285, 89%, 34%);
+    }
+
+    /* ==========================================
+       LAYOUT & SIDEBAR (STRETCHED TO BOTTOM)
+    ========================================== */
+    .dashboard-wrapper {
+        display: flex;
+        min-height: 100vh;
+        align-items: stretch;
+    }
+
+    .admin-sidebar {
+        background: var(--primary-gradient);
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        padding: 2rem 1.25rem;
+        color: #ffffff;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar-brand {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .sidebar-brand i {
+        font-size: 2.5rem;
+        margin-bottom: 0.75rem;
+        opacity: 0.95;
+    }
+
+    .sidebar-brand h4 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .sidebar-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.85);
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.85rem 1.25rem;
+        border-radius: var(--border-radius-md);
+        transition: var(--transition-smooth);
+        font-weight: 600;
+    }
+
+    .sidebar-nav-link i {
+        width: 20px;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .sidebar-nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        transform: translateX(4px);
+    }
+
+    .sidebar-nav-link.active {
+        background: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        border-left: 4px solid #ffffff;
+    }
+
+    /* ==========================================
+       MEDIA MODULE SPECIFIC COMPONENTS
+    ========================================== */
+    .media-header-banner {
+        background: var(--header-gradient);
+        color: #ffffff;
+        border-radius: var(--border-radius-lg);
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(114, 9, 183, 0.15);
+    }
+
+    .dashboard-card {
+        border-radius: var(--border-radius-lg);
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        background-color: #ffffff;
+    }
+
+    .media-card {
+        border: none;
+        border-radius: var(--border-radius-lg);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+        background: #ffffff;
+        overflow: hidden;
+        transition: var(--transition-smooth);
+    }
+
+    .media-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(114, 9, 183, 0.08);
+    }
+
+    .section-title {
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1.25rem;
+        color: var(--brand-main);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    img, video {
+        border-radius: 14px 14px 0 0;
+    }
+
+    .soft-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #5c636a;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .btn-action-tool {
+        border-radius: var(--border-radius-sm);
+        transition: var(--transition-smooth);
+    }
+</style>
+
+<div class="container-fluid p-0">
+    <div class="row g-0 dashboard-wrapper">
+
+        <div class="col-xl-2 col-lg-3 col-md-4 p-0 d-flex flex-column">
+            <aside class="admin-sidebar flex-grow-1">
+                <div class="sidebar-brand">
+                    <i class="fas fa-tooth text-white"></i>
+                    <h4>Yes Dental</h4>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <a href="{{ url_for('admin_dashboard') }}" class="sidebar-nav-link">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('admin_Reviews') }}" class="sidebar-nav-link">
+                        <i class="fas fa-star"></i> Reviews
+                    </a>
+                    <a href="#" class="sidebar-nav-link active">
+                        <i class="fas fa-cloud-upload-alt"></i> Media Upload
+                    </a>
+                    <a href="{{ url_for('admin_settings') }}" class="sidebar-nav-link">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a href="{{ url_for('admin_trash') }}" class="sidebar-nav-link">
+                        <i class="fas fa-trash-alt"></i> Trash
+                    </a>
+                    <a href="{{ url_for('logout') }}" class="sidebar-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </aside>
+        </div>
+
+        <div class="col-xl-10 col-lg-9 col-md-8 p-4 bg-light-subtle">
+
+            <div class="media-header-banner d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>Upload Media
+                    </h2>
+                    <p class="mb-0 opacity-85">Upload and manage clinic photos & videos safely</p>
+                </div>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light fw-bold px-3 py-2" style="border-radius: 8px; font-size: 0.9rem;">
+                    <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                </a>
+            </div>
+
+            <div class="card dashboard-card p-4 mb-5">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row g-3 align-items-end">
+
+                        <div class="col-md-4">
+                            <label class="soft-label">Select File</label>
+                            <input type="file" name="file" class="form-control border-secondary-subtle" style="padding: 0.58rem 0.75rem; border-radius: 8px;" required>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="soft-label">Media Type</label>
+                            <select name="type" class="form-select border-secondary-subtle" style="padding: 0.58rem 0.75rem; border-radius: 8px;" required>
+                                <option value="image">Image</option>
+                                <option value="video">Video</option>
+                            </select>
+                        </div>
+
+                        <!-- <div class="col-md-3">
+                            <label class="soft-label">Section</label>
+                            <select name="section" class="form-select border-secondary-subtle" style="padding: 0.58rem 0.75rem; border-radius: 8px;" required>
+                                <option value="hero">Hero Section</option>
+                                <option value="gallery">Gallery</option>
+                                <option value="blog">Blog</option>
+                            </select>
+                        </div> -->
+
+                        <div class="col-md-2">
+                            <button type="submit" class="btn text-white w-100 fw-bold d-flex align-items-center justify-content-center gap-2" style="background-color: var(--brand-main); border-radius: 8px; height: 48px;">
+                                <i class="fas fa-upload"></i> Upload Now
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <h4 class="section-title">
+                <i class="fas fa-images"></i> Uploaded Images
+            </h4>
+
+            <div class="row g-4">
+                {% for img in images %}
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                    <div class="card media-card h-100">
+                        <img src="{{ url_for('static', filename='images/' + img) }}"
+                             class="w-100"
+                             style="height: 200px; object-fit: cover;">
+                        
+                        <div class="p-2 text-center bg-white border-top">
+                            <a href="{{ url_for('delete_media', folder='images', filename=img) }}"
+                               class="btn btn-danger btn-sm w-100 btn-action-tool d-flex align-items-center justify-content-center gap-1"
+                               onclick="return confirm('Delete this image?')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h4 class="section-title">
+                <i class="fas fa-video"></i> Uploaded Videos
+            </h4>
+
+            <div class="row g-4 mb-5">
+                {% for vid in videos %}
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                    <div class="card media-card h-100">
+                        <video class="w-100" style="height: 200px; object-fit: cover;" controls>
+                            <source src="{{ url_for('static', filename='videos/' + vid) }}">
+                        </video>
+                        
+                        <div class="p-2 text-center bg-white border-top">
+                            <a href="{{ url_for('delete_media', folder='videos', filename=vid) }}"
+                               class="btn btn-danger btn-sm w-100 btn-action-tool d-flex align-items-center justify-content-center gap-1"
+                               onclick="return confirm('Delete this video?')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div> </div> </div>
+
+{% endblock %}

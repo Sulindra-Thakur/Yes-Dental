@@ -1,0 +1,244 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(180deg, hsl(285, 89%, 30%), hsl(285, 97%, 20%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --bg-hover: #fdf8ff;
+        --border-radius-lg: 22px;
+        --border-radius-md: 14px;
+        --border-radius-sm: 10px;
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-main-hover: hsl(285, 97%, 25%);
+    }
+
+    /* ==========================================
+       BACKGROUND & LAYOUT CORE SYSTEM
+    ========================================== */
+    body {
+        background: linear-gradient(135deg, #f8f6fa, #f0eaf5);
+        font-family: "Segoe UI", system-ui, sans-serif;
+    }
+
+    /* ==========================================
+       MODULAR REGISTRATION CARD ARCHITECTURE
+    ========================================== */
+    .register-premium-card {
+        border-radius: var(--border-radius-lg);
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 15px 35px rgba(114, 9, 183, 0.05);
+        transition: var(--transition-smooth);
+    }
+
+    .register-premium-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 25px 55px rgba(114, 9, 183, 0.12);
+    }
+
+    /* PREMIUM CARD HEADER CONTAINER */
+    .register-card-header {
+        background: var(--header-gradient) !important;
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .register-card-header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+        opacity: 0.08;
+    }
+
+    /* ==========================================
+       INPUT CONTROLS & COMPONENT STYLES
+    ========================================== */
+    .form-control {
+        border-radius: var(--border-radius-sm);
+        padding: 11px 14px;
+        border: 1px solid #e2d9e6;
+        background-color: #faf8fb;
+        transition: var(--transition-smooth);
+        color: #333333;
+    }
+
+    .form-control:focus {
+        border-color: var(--brand-main);
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(114, 9, 183, 0.12);
+        outline: none;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #4a424d;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    /* DYNAMIC ICON COMPONENT WRAPPER */
+    .input-group-text {
+        background: #f3edf7;
+        border: 1px solid #e2d9e6;
+        color: var(--brand-main);
+        padding-left: 15px;
+        padding-right: 15px;
+        transition: var(--transition-smooth);
+    }
+    
+    .input-group-text.left-addon {
+        border-right: none;
+        border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+    }
+
+    .input-group-text.password-toggle {
+        border-left: none;
+        border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+        cursor: pointer;
+        background: #faf8fb;
+    }
+
+    .input-group-text.password-toggle:hover {
+        background: #f3edf7;
+        color: var(--brand-main-hover);
+    }
+
+    .form-text {
+        color: #8c8291;
+        font-size: 0.8rem;
+        margin-top: 5px;
+        font-weight: 500;
+    }
+
+    /* ==========================================
+       PRIMARY ACTION SUBMISSION ENGINE
+    ========================================== */
+    .btn-register-action {
+        background: var(--brand-main) !important;
+        border-color: var(--brand-main) !important;
+        color: #ffffff !important;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: var(--transition-smooth);
+        box-shadow: 0 4px 15px rgba(114, 9, 183, 0.15);
+    }
+
+    .btn-register-action:hover {
+        background: var(--brand-main-hover) !important;
+        border-color: var(--brand-main-hover) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(114, 9, 183, 0.25);
+    }
+
+    /* HYPERLINK ARCHITECTURE ROUTING */
+    .text-link-purple {
+        color: var(--brand-main) !important;
+        transition: var(--transition-smooth);
+    }
+
+    .text-link-purple:hover {
+        color: var(--brand-main-hover) !important;
+        text-decoration: underline !important;
+    }
+</style>
+
+<div class="row justify-content-center py-4">
+    <div class="col-md-6 col-lg-5">
+
+        <div class="card register-premium-card shadow-lg border-0 overflow-hidden">
+
+            <div class="card-header register-card-header text-white text-center py-4.5">
+                <h3 class="mb-1 fw-bold" style="letter-spacing: -0.5px;">
+                    <i class="fas fa-user-plus me-2 small"></i>Patient Registration
+                </h3>
+                <p class="mb-0 text-white-50 small fw-semibold">Join Yes Dental Clinic today</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+
+                <form method="POST">
+
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text left-addon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" class="form-control" name="name"
+                                   placeholder="John Doe" style="border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text left-addon">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input type="email" class="form-control" name="email"
+                                   placeholder="name@example.com" style="border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text left-addon">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" class="form-control" name="password" id="registerPassword"
+                                   placeholder="Create a strong password" style="border-radius: 0;" required>
+                            <span class="input-group-text password-toggle" id="passwordToggleTrigger">
+                                <i class="fas fa-eye" id="toggleIcon"></i>
+                            </span>
+                        </div>
+                        <div class="form-text"><i class="fas fa-info-circle me-1 small"></i>Must be at least 6 characters long.</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-register-action w-100 py-2.5 fs-5 shadow-sm">
+                        Create Account
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted mb-0 fw-semibold small">
+                        Already have an account? 
+                        <a href="{{ url_for('login') }}" class="fw-bold text-decoration-none text-link-purple ms-1">
+                            Login here
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("registerPassword");
+        const toggleButton = document.getElementById("passwordToggleTrigger");
+        const toggleIcon = document.getElementById("toggleIcon");
+
+        toggleButton.addEventListener("click", function () {
+            // Check current input status type
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        });
+    });
+</script>
+
+{% endblock %}

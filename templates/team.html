@@ -1,0 +1,432 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 22%));
+        --header-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 25%));
+        --border-radius-lg: 24px;
+        --border-radius-md: 16px;
+        --border-radius-sm: 12px;
+        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-main-hover: hsl(285, 97%, 22%);
+        --purple-glow: rgba(114, 9, 183, 0.06);
+    }
+
+    /* ==========================================
+       BACKGROUND & LAYOUT CORE SYSTEM
+    ========================================== */
+    body {
+        background: linear-gradient(135deg, #f8f6fa, #f0eaf5);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================
+       PREMIUM DOCK CARD SPECIALISTS DESIGN
+    ========================================== */
+    .doctor-premium-card {
+        border-radius: var(--border-radius-lg);
+        border: 1px solid rgba(114, 9, 183, 0.04);
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(114, 9, 183, 0.03);
+        transition: var(--transition-smooth);
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Subtle top accent gradient line */
+    .doctor-premium-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 5px;
+        width: 100%;
+        background: var(--primary-gradient);
+        opacity: 0;
+        transition: var(--transition-smooth);
+        z-index: 2;
+    }
+
+    .doctor-premium-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(114, 9, 183, 0.12);
+        border-color: rgba(114, 9, 183, 0.15);
+    }
+
+    .doctor-premium-card:hover::before {
+        opacity: 1;
+    }
+
+    /* AVATAR DECORATIVE MODULE */
+    .doctor-avatar-wrapper {
+        background: linear-gradient(180deg, #faf8fc 0%, #ffffff 100%);
+        padding: 35px 20px 20px 20px;
+        position: relative;
+    }
+
+    .doctor-avatar-wrapper img {
+        border: 6px solid #ffffff;
+        box-shadow: 0 8px 25px rgba(114, 9, 183, 0.08);
+        transition: var(--transition-smooth);
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .doctor-premium-card:hover .doctor-avatar-wrapper img {
+        transform: scale(1.06) rotate(2deg);
+        box-shadow: 0 12px 30px rgba(114, 9, 183, 0.16);
+    }
+
+    /* CARD BODY & TYPOGRAPHY SYSTEM */
+    .doctor-card-body {
+        padding: 10px 25px 30px 25px;
+    }
+
+    .doctor-name {
+        font-weight: 800;
+        color: #231c26;
+        font-size: 1.15rem;
+        letter-spacing: -0.3px;
+        line-height: 1.3;
+    }
+
+    .doctor-specialty {
+        font-weight: 600;
+        color: var(--brand-main);
+        font-size: 0.92rem;
+        letter-spacing: 0.1px;
+    }
+
+    /* CREDENTIAL BADGES & NMCS */
+    .doctor-credential-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        margin: 12px 0 15px 0;
+    }
+
+    .badge-credential {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        background-color: #f6f0fa;
+        color: var(--brand-main);
+        border: 1px solid rgba(114, 9, 183, 0.08);
+        padding: 5px 11px;
+        border-radius: 6px;
+    }
+
+    /* 🔥 UPDATED TO PREMIUM PURPLE NMC BADGE */
+    .badge-nmc {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        background-color: #fdfafd;
+        color: var(--brand-main);
+        border: 1px solid rgba(114, 9, 183, 0.22);
+        padding: 5px 11px;
+        border-radius: 6px;
+    }
+
+    /* SOCIAL ACTION CHANNELS */
+    .btn-social-ring {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid #e2d9e6;
+        color: #8c8291;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition-smooth);
+        background: transparent;
+    }
+
+    .btn-social-ring:hover {
+        background: var(--primary-gradient);
+        color: #ffffff !important;
+        border-color: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(114, 9, 183, 0.15);
+    }
+
+    /* GLOBAL ELEMENTS DECORATIONS */
+    .text-brand-purple {
+        color: var(--brand-main) !important;
+    }
+</style>
+
+<div class="container py-5">
+
+    <!-- PAGE MAIN HEADER BANNER -->
+    <div class="text-center mb-5 pb-2">
+        <h6 class="text-brand-purple fw-bold text-uppercase tracking-widest mb-2" style="font-size: 0.8rem; letter-spacing: 2px;">Our Specialists</h6>
+        <h2 class="fw-bold display-5 text-brand-purple mb-3" style="letter-spacing: -1.5px;">Meet the Experts Behind Your Smile</h2>
+        <p class="text-muted lead mx-auto" style="max-width: 580px; font-size: 1.1rem; font-weight: 500;">Highly qualified professionals dedicated to your clinical comfort and medical care excellence.</p>
+    </div>
+
+    <!-- MAIN INTERACTIVE DOCTORS GRID -->
+    <div class="row g-4 justify-content-center">
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 1 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/birendra1.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Birendra Kumar Thakur</h5>
+                    <p class="doctor-specialty mb-2">Periodontology and Oral Implantology (JR)</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">BDS (BPKIHS)</span>
+                        <span class="badge-nmc">NMC No. 32846</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="https://www.linkedin.com/in/dr-birendra-thakur-9bb5a7a3?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                           class="btn-social-ring" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://x.com/Birendra_st"
+                           class="btn-social-ring" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 2 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/sanjay.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Sanjay Ranjit</h5>
+                    <p class="doctor-specialty mb-2">Consultant Endodontist</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS (AIMS)</span>
+                        <span class="badge-credential">BDS (BPKIHS)</span>
+                        <span class="badge-nmc">NMC No. 13464</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 3 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/te.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Tekendra Chaulagain</h5>
+                    <p class="doctor-specialty mb-2">Consultant Orthodontist</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS (Teaching Hosp)</span>
+                        <span class="badge-credential">BDS (TU)</span>
+                        <span class="badge-nmc">NMC No. 13460</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 4 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/deep.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Deepak Chand</h5>
+                    <p class="doctor-specialty mb-2">Consultant Orthodontist</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS (KU)</span>
+                        <span class="badge-credential">BDS (BPKIHS)</span>
+                        <span class="badge-nmc">NMC No. 17452</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 5 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/arun.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Arun Kumar Sahani</h5>
+                    <p class="doctor-specialty mb-2">Consultant Orthodontist</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS (KU)</span>
+                        <span class="badge-credential">BDS (BPKIHS)</span>
+                        <span class="badge-nmc">NMC No. 20064</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 6 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/kamal.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Kamal Pandey</h5>
+                    <p class="doctor-specialty mb-2">Consultant Pedodontist & Implantologist</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS (AIIMS)</span>
+                        <span class="badge-credential">BDS (KU)</span>
+                        <span class="badge-nmc">NMC No. 20721</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 7 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/shreebindu.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Shreebindu Sharma</h5>
+                    <p class="doctor-specialty mb-2">Consultant Pedodontist</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS (BPKIHS)</span>
+                        <span class="badge-credential">Police Hosp</span>
+                        <span class="badge-nmc">NMC No. 15010</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 8 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/sitaram.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Sitaram Gupta</h5>
+                    <p class="doctor-specialty mb-2">Oral & Dental Surgeon</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">BDS (KUSMS)</span>
+                        <span class="badge-nmc">NMC No. 34864</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 9 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/sudip.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Sudeep Subedi</h5>
+                    <p class="doctor-specialty mb-2">Consultant Prosthodontics & Oral</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS (BPKIHS)</span>
+                        <span class="badge-credential">BDS (TU)</span>
+                        <span class="badge-nmc">NMC No. 13962</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCTOR DEPLOYMENT: DOCTOR 10 -->
+        <div class="col-sm-6 col-md-4 col-lg-4">
+            <div class="card doctor-premium-card border-0 text-center">
+                <div class="doctor-avatar-wrapper">
+                    <img src="{{ url_for('static', filename='logo/bili.jpeg') }}" 
+                         class="rounded-circle mx-auto d-block">
+                </div>
+                <div class="doctor-card-body">
+                    <h5 class="doctor-name mb-1">Dr. Bipulesh Goit</h5>
+                    <p class="doctor-specialty mb-2">Consultant Oral & Maxillofacial Surgeon</p>
+                    
+                    <div class="doctor-credential-pills">
+                        <span class="badge-credential">MDS</span>
+                        <span class="badge-credential">BDS (BPKIHS)</span>
+                        <span class="badge-nmc">NMC No. 14</span>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2.5 mt-2">
+                        <a href="#" class="btn-social-ring"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="btn-social-ring"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

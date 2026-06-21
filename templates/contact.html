@@ -1,0 +1,293 @@
+{% extends "index.html" %}
+{% block content %}
+
+<style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, hsl(285, 89%, 34%), hsl(285, 97%, 22%));
+        --card-gradient-hover: linear-gradient(135deg, #ffffff, #fdfaff);
+        --border-radius-lg: 24px;
+        --border-radius-md: 16px;
+        --border-radius-sm: 12px;
+        --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --brand-main: hsl(285, 89%, 34%);
+        --brand-main-hover: hsl(285, 97%, 22%);
+        --purple-glow: rgba(114, 9, 183, 0.08);
+    }
+
+    /* ==========================================
+       BACKGROUND & LAYOUT CORE SYSTEM
+    ========================================== */
+    body {
+        background: linear-gradient(135deg, #f9f8fa, #f2edf7);
+        font-family: "Segoe UI", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* ==========================================
+       PREMIUM DYNAMIC CARD ARCHITECTURE
+    ========================================== */
+    .contact-premium-card {
+        border-radius: var(--border-radius-lg);
+        border: 1px solid rgba(114, 9, 183, 0.05);
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(114, 9, 183, 0.03);
+        transition: var(--transition-smooth);
+    }
+
+    .contact-premium-card:hover {
+        box-shadow: 0 20px 50px rgba(114, 9, 183, 0.09);
+    }
+
+    /* SEGMENT INTERACTIVE INFRASTRUCTURE CARDS */
+    .info-interactive-item {
+        background: #faf8fc;
+        border: 1px solid rgba(114, 9, 183, 0.04);
+        border-radius: var(--border-radius-md);
+        padding: 20px;
+        transition: var(--transition-smooth);
+    }
+
+    .info-interactive-item:hover {
+        background: var(--card-gradient-hover);
+        transform: translateX(5px);
+        border-color: rgba(114, 9, 183, 0.15);
+        box-shadow: 0 8px 20px var(--purple-glow);
+    }
+
+    .contact-block-title {
+        font-weight: 800;
+        color: #231c26;
+        font-size: 1.35rem;
+        letter-spacing: -0.3px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .contact-block-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 45px;
+        height: 4px;
+        background: var(--primary-gradient);
+        border-radius: 10px;
+    }
+
+    /* ==========================================
+       INPUT MODULES & TEXTAREAS
+    ========================================== */
+    .form-control {
+        border-radius: var(--border-radius-sm);
+        padding: 14px 18px;
+        border: 1px solid #e4daeb;
+        background-color: #faf9fc;
+        transition: var(--transition-smooth);
+        color: #333333;
+        font-weight: 500;
+    }
+
+    .form-control:focus {
+        border-color: var(--brand-main);
+        background-color: #ffffff;
+        box-shadow: 0 0 0 5px rgba(114, 9, 183, 0.14);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: #aba2b0;
+        font-weight: 400;
+    }
+
+    /* ==========================================
+       INTERACTIVE BUTTON ACTIONS
+    ========================================== */
+    .btn-contact-action {
+        background: var(--primary-gradient) !important;
+        border: none !important;
+        color: #ffffff !important;
+        border-radius: 50px;
+        font-weight: 700;
+        padding: 14px 32px;
+        letter-spacing: 0.3px;
+        transition: var(--transition-smooth);
+        box-shadow: 0 6px 20px rgba(114, 9, 183, 0.2);
+    }
+
+    .btn-contact-action:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(114, 9, 183, 0.35);
+    }
+
+    .btn-whatsapp-custom {
+        background: linear-gradient(135deg, #25d366, #1ebd54) !important;
+        border: none !important;
+        color: white !important;
+        border-radius: 50px;
+        font-weight: 700;
+        padding: 8px 20px;
+        transition: var(--transition-smooth);
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+    }
+
+    .btn-whatsapp-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+    }
+
+    /* BRAND INFRASTRUCTURE DECORATIONS */
+    .text-brand-purple {
+        color: var(--brand-main) !important;
+    }
+    
+    .bg-brand-light {
+        background: var(--primary-gradient);
+        color: white;
+    }
+
+    .text-link-maps {
+        color: var(--brand-main) !important;
+        font-weight: 700;
+        transition: var(--transition-smooth);
+    }
+
+    .text-link-maps:hover {
+        color: var(--brand-main-hover) !important;
+    }
+
+    .info-icon-wrapper {
+        color: #ffffff;
+        background: var(--primary-gradient);
+        width: 48px;
+        height: 48px;
+        border-radius: var(--border-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(114, 9, 183, 0.15);
+    }
+</style>
+
+<div class="container py-5">
+
+    <div class="text-center mb-5 pb-2">
+        <h6 class="text-brand-purple fw-bold text-uppercase tracking-widest mb-2" style="font-size: 0.8rem; letter-spacing: 2px;">Get in Touch</h6>
+        <h2 class="fw-bold display-5 text-brand-purple mb-3" style="letter-spacing: -1.5px;">Contact Us</h2>
+        <p class="text-muted lead mx-auto style-subheading" style="max-width: 580px; font-size: 1.1rem; font-weight: 500;">We are always here to answer your healthcare questions and orchestrate your next dental visit smoothly.</p>
+    </div>
+
+    <div class="row g-4 lg-g-5">
+
+        <div class="col-lg-5">
+            <div class="card contact-premium-card p-4 p-md-5 h-100 d-flex flex-column justify-content-between">
+                
+                <div>
+                    <h4 class="contact-block-title mb-5">Contact Information</h4>
+
+                    <div class="d-flex align-items-center info-interactive-item mb-3">
+                        <div class="info-icon-wrapper me-3 flex-shrink-0">
+                            <i class="fas fa-map-marker-alt fa-lg"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Our Address</h6>
+                            <p class="text-muted mb-0 small fw-semibold" style="line-height: 1.4;">Shantinagar-31, New Baneshwor<br>(Infront of NABIL BANK), Kathmandu, Nepal 44600</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center info-interactive-item mb-3">
+                        <div class="info-icon-wrapper me-3 flex-shrink-0">
+                            <i class="fas fa-phone fa-lg"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Phone</h6>
+                            <p class="text-muted mb-0 small fw-semibold">01-5923492  |  +977-9705653492</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center info-interactive-item mb-4">
+                        <div class="info-icon-wrapper me-3 flex-shrink-0">
+                            <i class="fas fa-envelope fa-lg"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-1">Email Connection</h6>
+                            <p class="text-muted mb-0 small fw-semibold">Yesdental0001@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between p-3 px-4 style-whatsapp-box" style="background: rgba(37, 211, 102, 0.05); border: 1px dashed rgba(37, 211, 102, 0.3); border-radius: var(--border-radius-md);">
+                    <div class="d-flex align-items-center">
+                        <i class="fab fa-whatsapp fa-2x me-3" style="color: #25d366;"></i>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0" style="font-size: 0.95rem;">WhatsApp Support</h6>
+                            <small class="text-muted fw-medium">Instant Chat Assist</small>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/9705653492" target="_blank" class="btn btn-whatsapp-custom btn-sm shadow-sm">
+                        Chat Now
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+
+            <div class="card contact-premium-card mb-4 overflow-hidden border-0 shadow-sm">
+                <div class="p-3 px-4 bg-white d-flex align-items-center justify-content-between border-bottom">
+                    <span class="text-dark fw-bold small d-flex align-items-center gap-2">
+                        <i class="fas fa-compass text-brand-purple"></i>
+                        <span>Interactive Clinic Locator</span>
+                        <span class="badge bg-light text-dark border d-flex align-items-center gap-1 ms-2" style="font-size: 11px; padding: 4px 8px;">
+                            <i class="fab fa-google" style="color: #4285F4;"></i> Maps Connected
+                        </span>
+                    </span>
+                    <a href="https://maps.app.goo.gl/uMAX6v5vJ19fSRcaA" target="_blank" class="text-decoration-none text-link-maps small">
+                        View Map Fullscreen <i class="fas fa-arrow-up-right-from-square ms-1 small"></i>
+                    </a>
+                </div>
+                <div class="ratio ratio-21x9 ratio-md-16x9" style="min-height: 240px;">
+                    <iframe src="https://www.google.com/maps?q=Kathmandu,Nepal&output=embed" allowfullscreen loading="lazy" style="border:0; filter: grayscale(10%) contrast(102%);"></iframe>
+                </div>
+            </div>
+
+            <div class="card contact-premium-card p-4 p-md-5">
+                <h4 class="contact-block-title mb-4">Send Us a Message</h4>
+
+                <form action="{{ url_for('submit_review') }}" method="POST">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <input type="text" name="name" class="form-control" placeholder="Your Full Name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <input type="email" name="email" class="form-control" placeholder="Your Email Address" required>
+                        </div>
+
+                        <div class="col-12">
+                            <input type="text" name="subject" class="form-control" placeholder="Subject / Reason of Query" required>
+                        </div>
+
+                        <div class="col-12">
+                            <textarea name="message" class="form-control" rows="4" placeholder="Type your detailed message here safely..." required></textarea>
+                        </div>
+
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-contact-action w-100 py-3 fs-5 shadow">
+                                <i class="fas fa-paper-plane me-2 small"></i> Dispatch Message
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
