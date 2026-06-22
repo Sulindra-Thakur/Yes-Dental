@@ -42,6 +42,16 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+from sqlalchemy import create_engine
+
+engine = create_engine(
+    app.config['SQLALCHEMY_DATABASE_URI'],
+    pool_pre_ping=True,
+    pool_recycle=280,
+    pool_size=5,
+    max_overflow=10
+)
+
 # ================= FOLDERS =================
 UPLOAD_IMAGE_FOLDER = 'static/images'
 UPLOAD_VIDEO_FOLDER = 'static/videos'
@@ -739,7 +749,10 @@ If you did not request this, please ignore this email.
 YES Dental
 """
 
-            send_email(email, "YES Dental - Password Reset", body)
+           threading.Thread(
+                target=send_email,
+                args=(email, "YES Dental - Password Reset", body)
+            ).start()
 
             flash('Password reset link sent to your email.', 'success')
             return redirect(url_for('login'))
