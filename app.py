@@ -684,21 +684,29 @@ mail = Mail()
 mail.init_app(app)
 
 def send_email(to, subject, body):
-    msg = Message(
-        subject=subject,
-        sender=app.config['MAIL_USERNAME'],
-        recipients=[to]
-    )
-    msg.body = body
-    mail.send(msg)
+    try:
+        msg = Message(
+            subject=subject,
+            sender=app.config['MAIL_USERNAME'],
+            recipients=[to]
+        )
+        msg.body = body
+        mail.send(msg)
+        print(f"Email sent successfully to {to}")
+    except Exception as e:
+        print("MAIL ERROR:", repr(e))
+        raise
+
 
 
 @app.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
-
     if request.method == 'POST':
+        email = request.form.get('email', '').strip()
 
-        email = request.form.get('email')
+        if not email:
+            flash('Please enter your email.', 'danger')
+            return redirect(url_for('forgot_password'))
 
         user = User.query.filter_by(email=email).first()
 
@@ -706,27 +714,22 @@ def forgot_password():
             flash('Email not found.', 'danger')
             return redirect(url_for('forgot_password'))
 
-        token = serializer.dumps(email, salt='password-reset')
+        try:
+            token = serializer.dumps(email, salt='password-reset')
 
-        user.reset_token = token
-        user.reset_token_used = False
-        db.session.commit()
+            user.reset_token = token
+            user.reset_token_used = False
+            db.session.commit()
 
-        token = serializer.dumps(email, salt='password-reset')
+            base_url = os.getenv("BASE_URL", "https://yes-dental.onrender.com").rstrip("/")
+            reset_link = f"{base_url}{url_for('reset_password', token=token)}"
 
-        user.reset_token = token
-        user.reset_token_used = False
-        db.session.commit()
-
-        reset_link = url_for('reset_password', token=token, _external=True)
-
-        body = f"""
+            body = f"""
 Hello {user.name},
 
 You requested a password reset.
 
 Click the link below:
-
 {reset_link}
 
 This link will expire in 1 hour.
@@ -736,31 +739,27 @@ If you did not request this, please ignore this email.
 YES Dental
 """
 
-        send_email(
-            email,
-            "YES Dental - Password Reset",
-            body
-        )
+            send_email(email, "YES Dental - Password Reset", body)
 
-        flash('Password reset link sent to your email.', 'success')
-        return redirect(url_for('login'))
+            flash('Password reset link sent to your email.', 'success')
+            return redirect(url_for('login'))
+
+        except Exception as e:
+            db.session.rollback()
+            print("FORGOT PASSWORD ERROR:", repr(e))
+            flash('Something went wrong while processing reset request.', 'danger')
+            return redirect(url_for('forgot_password'))
 
     return render_template('forgot_password.html')
-
 # ----------------------------------------- reset password---------------------------
 # ---------------------------------- RESET PASSWORD ----------------------------------
 
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
-
     try:
-        email = serializer.loads(
-            token,
-            salt='password-reset',
-            max_age=3600
-        )
-
-    except Exception:
+        email = serializer.loads(token, salt='password-reset', max_age=3600)
+    except Exception as e:
+        print("TOKEN ERROR:", e)
         flash('Invalid or expired reset link.', 'danger')
         return redirect(url_for('login'))
 
@@ -779,26 +778,33 @@ def reset_password(token):
         return redirect(url_for('login'))
 
     if request.method == 'POST':
+        password = request.form.get('password', '').strip()
+        confirm_password = request.form.get('confirm_password', '').strip()
 
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+        if not password or not confirm_password:
+            flash('Both password fields are required.', 'danger')
+            return redirect(request.url)
 
         if password != confirm_password:
             flash('Passwords do not match.', 'danger')
             return redirect(request.url)
 
-        user.password = generate_password_hash(password)
+        try:
+            user.password = generate_password_hash(password)
+            user.reset_token_used = True
+            user.reset_token = None
+            db.session.commit()
 
-        user.reset_token_used = True
-        user.reset_token = None
+            flash('Password updated successfully. Please login.', 'success')
+            return redirect(url_for('login'))
 
-        db.session.commit()
-
-        flash('Password updated successfully. Please login.', 'success')
-        return redirect(url_for('login'))
+        except Exception as e:
+            db.session.rollback()
+            print("RESET PASSWORD ERROR:", e)
+            flash('Failed to reset password.', 'danger')
+            return redirect(request.url)
 
     return render_template('reset_password.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
