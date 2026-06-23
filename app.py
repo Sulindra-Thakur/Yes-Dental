@@ -276,10 +276,12 @@ YES Dental
 """
 
             # Explicitly passing the 'app' instance so the background thread maintains context
-            threading.Thread(
-                target=send_email,
-                args=(app, email, "YES Dental - Password Reset", body)
-            ).start()
+            # threading.Thread(
+            #     target=send_email,
+            #     args=(app, email, "YES Dental - Password Reset", body)
+            # ).start()
+
+            send_email(app, email, "YES Dental - Password Reset", body)
 
             flash('Password reset link sent to your email.', 'success')
             return redirect(url_for('login'))
