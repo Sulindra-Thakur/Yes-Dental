@@ -113,24 +113,24 @@ def allowed_file(filename, allowed_set):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_set
 
 
-def send_email(app_instance, to, subject, body):
-    """
-    Sends email within the explicit application context required 
-    by background threads running Flask-Mail.
-    """
-    try:
-        with app_instance.app_context():
-            msg = Message(
-                subject=subject,
-                sender=app_instance.config['MAIL_USERNAME'],
-                recipients=[to]
-            )
-            msg.body = body
-            mail.send(msg)
-            print(f"Email sent successfully to {to}")
-    except Exception as e:
-        print("MAIL ERROR:", repr(e))
-        raise
+# def send_email(app_instance, to, subject, body):
+#     """
+#     Sends email within the explicit application context required 
+#     by background threads running Flask-Mail.
+#     """
+#     try:
+#         with app_instance.app_context():
+#             msg = Message(
+#                 subject=subject,
+#                 sender=app_instance.config['MAIL_USERNAME'],
+#                 recipients=[to]
+#             )
+#             msg.body = body
+#             mail.send(msg)
+#             print(f"Email sent successfully to {to}")
+#     except Exception as e:
+#         print("MAIL ERROR:", repr(e))
+#         raise
 
 
 # =====================================================================
@@ -288,6 +288,21 @@ YES Dental
             return redirect(url_for('forgot_password'))
             
     return render_template('forgot_password.html')
+
+def send_email(app_instance, to, subject, body):
+    try:
+        with app_instance.app_context():
+            msg = Message(
+                subject=subject,
+                sender=os.getenv('MAIL_USERNAME'),  # <--- Seedhe os.getenv use karein
+                recipients=[to]
+            )
+            msg.body = body
+            mail.send(msg)
+            print(f"Email sent successfully to {to}")
+    except Exception as e:
+        print("MAIL ERROR AAYA HAI:", repr(e))  # <--- Isko thoda alag text de rahe hain taaki logs mein turant dikhe
+        raise
 
 
 @app.route('/reset-password/<token>', methods=['GET', 'POST'])
