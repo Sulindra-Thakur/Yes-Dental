@@ -2,7 +2,7 @@
 {% block content %}
 <style>
     /* ==========================================
-       GLOBAL ARCHITECTURE & COLOR MATRIX
+        GLOBAL ARCHITECTURE & COLOR MATRIX
     ========================================== */
     :root {
         --primary: hsl(285, 89%, 34%);
@@ -30,7 +30,7 @@
     }
 
     /* ==========================================
-       TYPOGRAPHY CONFIGURATIONS
+        TYPOGRAPHY CONFIGURATIONS
     ========================================== */
     h1, h2, h3, h4, h5, h6 {
         color: var(--text-dark);
@@ -43,7 +43,7 @@
     }
 
     /* ==========================================
-       DYNAMIC INTERACTIVE ACTIONS (BUTTONS)
+        DYNAMIC INTERACTIVE ACTIONS (BUTTONS)
     ========================================== */
     .btn-primary {
         background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -97,7 +97,7 @@
     }
 
     /* ==========================================
-       PREMIUM HERO FRAMEWORK (CURVE TUNED)
+        PREMIUM HERO FRAMEWORK (CURVE TUNED)
     ========================================== */
     .hero-section {
         border-radius: 0 0 20px 20px;
@@ -106,24 +106,16 @@
         box-shadow: var(--shadow-lg);
     }
 
-    /* .hero-overlay {
+    .hero-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to right, rgba(35, 28, 38, 0.6), rgba(163, 44, 196, 0.3));
+        background: linear-gradient(
+            to right,
+            rgba(35, 28, 38, 0.08),
+            rgba(163, 44, 196, 0.05)
+        );
         z-index: 1;
-    } */
-
-
-    .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to right,
-        rgba(35, 28, 38, 0.08),
-        rgba(163, 44, 196, 0.05)
-    );
-    z-index: 1;
-}
+    }
 
     .hero-section .container {
         position: relative;
@@ -131,12 +123,12 @@
     }
 
     .hero-title{
-    font-weight: 800;
-    letter-spacing: -1px;
-}
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
 
     /* ==========================================
-       MODERN CARD SYSTEM ARCHITECTURE & PURPLE SYNCHRONIZATION
+        MODERN CARD SYSTEM ARCHITECTURE & PURPLE SYNCHRONIZATION
     ========================================== */
     .card {
         background: var(--card-bg);
@@ -187,7 +179,7 @@
     }
 
     /* ==========================================
-       EMERGENCY SECTION (PROPORTIONS INCREASED)
+        EMERGENCY SECTION (PROPORTIONS INCREASED)
     ========================================== */
     .bg-danger-custom {
         background: linear-gradient(90deg, #d32f2f, #f44336) !important;
@@ -197,7 +189,7 @@
     }
 
     /* ==========================================
-       ABOUT CLINIC SYSTEM (IMAGE BOOSTED)
+        ABOUT CLINIC SYSTEM (IMAGE BOOSTED)
     ========================================== */
     .about-image-wrapper {
         position: relative;
@@ -261,7 +253,7 @@
     }
 
     /* ==========================================
-       TEAM & MAP MODULE ARCHITECTURES
+        TEAM & MAP MODULE ARCHITECTURES
     ========================================== */
     .team-img-wrapper {
         position: relative;
@@ -295,122 +287,116 @@
     }
 
     .btn-history-custom{
-    margin-right: 75px;
-    background-color: #A32CC4;
-    color: white !important;
-    border-radius: 50px;
-    padding: 12px 24px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
+        margin-right: 75px;
+        background-color: #A32CC4;
+        color: white !important;
+        border-radius: 50px;
+        padding: 12px 24px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
 
-.btn-history-custom:hover{
-    background-color: #8a1fb0;
-    color: white !important;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(163, 44, 196, 0.35);
-}
+    .btn-history-custom:hover{
+        background-color: #8a1fb0;
+        color: white !important;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(163, 44, 196, 0.35);
+    }
 
-.btn-history-custom:hover i{
-    transform: translateX(5px);
-    transition: transform 0.3s ease;
-}
-/* ==========================================
-   HERO SECTION FORCE DESKTOP VIEW SYSTEM
-========================================== */
-.hero-section {
-    min-height: 85dvh;
-    background-position: left center !important; /* Image ka left part focused rahega */
-}
+    .btn-history-custom:hover i{
+        transform: translateX(5px);
+        transition: transform 0.3s ease;
+    }
 
-/* Tablets aur Medium Screens par layout maintain rakhne ke liye */
-@media (max-width: 991px) {
+    /* =======================================================
+       PREMIUM HERO FRAMEWORK & RESPONSIVE SYSTEM (CLEANED)
+       ======================================================= */
     .hero-section {
-        padding: 40px 0;
+        min-height: 85dvh;
+        background-position: right center !important; /* Desktop default focus */
+        transition: var(--transition-smooth);
     }
-    .hero-section h1 {
-        font-size: 2.5rem !important; /* Text thoda chota taaki ek line me adjust ho ske */
-        line-height: 1.2;
-    }
-    .hero-section .lead {
-        font-size: 1.05rem;
-        max-width: 85% !important;
-        margin-left: 0 !important; /* Left alignment fix */
-    }
-    .hero-section .d-flex {
-        flex-direction: row !important; /* Buttons ko side-by-side (row) hi rakhega */
-        gap: 12px !important;
-        justify-content: flex-start !important; /* Left side me rakhega */
-    }
-    .hero-section .btn {
-        padding: 10px 20px !important;
-        font-size: 0.9rem;
-        width: auto !important; /* Full width hone se rokega */
-        min-width: unset !important;
-    }
-}
 
-/* Chote Mobile Screens ke liye */
-@media (max-width: 576px) {
-    .hero-section {
-        padding: 30px 15px;
-    }
-    .hero-section h1 {
-        font-size: 1.8rem !important; /* Chote mobile ke hisab se perfect heading size */
-    }
-    .hero-section .lead {
-        font-size: 0.9rem;
-        max-width: 90% !important;
-    }
-    .hero-section .badge {
-        font-size: 0.75rem;
-    }
-}
+    /* Mobile & Tablet Responsive Engine */
+    @media (max-width: 768px) {
+        .hero-section {
+            background-position: 82% center !important; /* Auto-focus setup on mobile */
+            min-height: 60dvh !important; 
+            padding: 40px 0;
+        }
 
-/* Ultra Small Screens (iPhone 12/13 Mini, Samsung S21 FE etc.) */
-@media (max-width: 400px) {
-    .hero-section h1 {
-        font-size: 1.6rem !important;
-    }
-    .hero-section .lead {
-        font-size: 0.85rem;
-    }
-    .hero-section .btn {
-        padding: 8px 15px !important;
-        font-size: 0.85rem;
-    }
-}
+        .hero-title {
+            font-size: 2.2rem !important;
+            line-height: 1.2 !important;
+            margin-top: 15px;
+        }
 
+        .hero-lead-text {
+            font-size: 0.95rem !important;
+            line-height: 1.5 !important;
+            max-width: 85% !important;
+        }
+
+        .brand-badge {
+            font-size: 0.75rem !important;
+        }
+
+        /* Prevent side-by-side buttons from vertical crashing */
+        .hero-btn-group {
+            flex-direction: row !important; 
+            gap: 10px !important;
+        }
+
+        .dynamic-hero-btn {
+            padding: 10px 18px !important;
+            font-size: 0.85rem !important;
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
+        }
+    }
+
+    /* Ultra Small Phones (iPhone SE / Mini Models) */
+    @media (max-width: 380px) {
+        .hero-title {
+            font-size: 1.8rem !important;
+        }
+        .hero-lead-text {
+            font-size: 0.85rem !important;
+            max-width: 100% !important;
+        }
+        .dynamic-hero-btn {
+            padding: 8px 12px !important;
+            font-size: 0.78rem !important;
+        }
+    }
 </style>
 
-<!-- 1. HERO SECTION -->
 <section class="hero-section text-white d-flex align-items-center"
     style="
     background:
     linear-gradient(
-        rgba(255,255,255,0.18),
-        rgba(255,255,255,0.18)
+        rgba(0, 0, 0, 0.25), /* Text readability badhane ke liye optimal safe overlay tint */
+        rgba(0, 0, 0, 0.25)
     ),
-    url('{{ url_for('static', filename='logo/hero2.jpeg') }}')
-    no-repeat center center;
+    url('{{ url_for('static', filename='logo/hero2.jpeg') }}') no-repeat;
     background-size: cover;
     min-height: 85dvh;">
     <div class="hero-overlay"></div>
-    <div class="container text-center text-md-start">
-        <div class="row flex-nowrap">
-            <div class="col-lg-8 col-xl-7 mx-auto mx-md-0">
-                <div class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm"> 
+    <div class="container text-start">
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-7">
+                <div class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm brand-badge"> 
                     <i class="fas fa-award me-1"></i> #1 Rated Dental Clinic in the City 
                 </div>
-                <h1 class="hero-title display-3 fw-bold text-white mb-4" style="text-shadow: 0 4px 15px rgba(0,0,0,0.15);">Your Smile,<br>Our Passion.</h1>
-                <p class="lead text-white mb-5" style="max-width: 650px; line-height: 1.7; opacity: 0.95; font-weight: 400; text-shadow: 0 2px 8px rgba(0,0,0,0.45);">
+                <h1 class="hero-title display-3 fw-bold text-white mb-3" style="text-shadow: 0 4px 15px rgba(0,0,0,0.35);">Your Smile,<br>Our Passion.</h1>
+                <p class="lead text-white mb-4 hero-lead-text" style="max-width: 650px; line-height: 1.6; opacity: 0.95; font-weight: 400; text-shadow: 0 2px 8px rgba(0,0,0,0.55);">
                     Experience world-class dental care with advanced technology and a gentle touch. 
                     From routine check-ups to complex smile makeovers, we are here for you.
                 </p>
-                <div class="d-flex flex-column flex-sm-row gap-3">
-                    <a href="{{ url_for('booking_page') }}" class="btn btn-primary btn-lg px-4 py-3 shadow">Book Appointment</a>
-                    <!-- Filled Solid Purple Background Button below -->
-                    <a href="{{ url_for('services') }}" class="btn btn-hero-secondary btn-lg px-4 py-3 shadow">Our Services</a>
+                <div class="hero-btn-group d-flex gap-3">
+                    <a href="{{ url_for('booking_page') }}" class="btn btn-primary btn-lg px-4 py-3 shadow dynamic-hero-btn">Book Appointment</a>
+                    <a href="{{ url_for('services') }}" class="btn btn-hero-secondary btn-lg px-4 py-3 shadow dynamic-hero-btn">Our Services</a>
                 </div>
             </div>
         </div>
