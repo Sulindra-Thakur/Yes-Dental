@@ -312,43 +312,50 @@
        PREMIUM HERO FRAMEWORK & RESPONSIVE SYSTEM (CLEANED)
        ======================================================= */
     .hero-section {
-        min-height: 85dvh;
-        background-position: right center !important; /* Desktop default focus */
-        transition: var(--transition-smooth);
+        background: linear-gradient(
+            rgba(0, 0, 0, 0.55), 
+            rgba(0, 0, 0, 0.55)
+        ),
+        url('/static/logo/hero2.jpeg') no-repeat !important;
+        background-size: cover !important;
     }
 
     /* Mobile & Tablet Responsive Engine */
     @media (max-width: 768px) {
         .hero-section {
-            background-position: 82% center !important; /* Auto-focus setup on mobile */
-            min-height: 60dvh !important; 
-            padding: 40px 0;
+        /* Image ko center me rakhega aur responsive fill karega */
+        background-position: center center !important; 
+        background-size: cover !important;
+        min-height: 75vh !important; /* Mobile par thoda extra breathing space */
+        padding: 60px 0 40px 0 !important;
         }
 
         .hero-title {
-            font-size: 2.2rem !important;
-            line-height: 1.2 !important;
-            margin-top: 15px;
+        font-size: 2rem !important; /* Typography scale maintain rakhne ke liye */
+        line-height: 1.25 !important;
+        margin-top: 10px;
         }
 
         .hero-lead-text {
             font-size: 0.95rem !important;
-            line-height: 1.5 !important;
-            max-width: 85% !important;
+            line-height: 1.6 !important;
+            max-width: 100% !important;
         }
 
         .brand-badge {
             font-size: 0.75rem !important;
+            white-space: normal !important;
         }
 
         /* Prevent side-by-side buttons from vertical crashing */
         .hero-btn-group {
             flex-direction: row !important; 
             gap: 10px !important;
+            width: 100%;
         }
 
         .dynamic-hero-btn {
-            padding: 10px 18px !important;
+            padding: 12px 15px !important;
             font-size: 0.85rem !important;
             flex: 1;
             text-align: center;
