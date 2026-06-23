@@ -315,148 +315,69 @@
     transform: translateX(5px);
     transition: transform 0.3s ease;
 }
-
 /* ==========================================
-   HERO SECTION RESPONSIVE SYSTEM
+   HERO SECTION FORCE DESKTOP VIEW SYSTEM
 ========================================== */
-
-/* Desktop Large */
 .hero-section {
     min-height: 85dvh;
+    background-position: left center !important; /* Image ka left part focused rahega */
 }
 
-/* Large Tablets / Small Laptops */
-@media (max-width: 1024px) {
-
+/* Tablets aur Medium Screens par layout maintain rakhne ke liye */
+@media (max-width: 991px) {
     .hero-section {
-        min-height: 80dvh;
-        height: auto !important;
+        padding: 40px 0;
     }
-
     .hero-section h1 {
-        font-size: 3rem !important;
-        line-height: 1.15;
+        font-size: 2.5rem !important; /* Text thoda chota taaki ek line me adjust ho ske */
+        line-height: 1.2;
     }
-
     .hero-section .lead {
-        font-size: 1.1rem;
-        max-width: 550px !important;
+        font-size: 1.05rem;
+        max-width: 85% !important;
+        margin-left: 0 !important; /* Left alignment fix */
     }
-}
-
-/* Tablets */
-@media (max-width: 768px) {
-
-    .hero-section {
-        min-height: 100dvh;
-        height: auto !important;
-        padding: 80px 20px;
-        background-position: center center !important;
-        background-size: cover !important;
-    }
-
-    .hero-section .container {
-        text-align: center !important;
-    }
-
-    .hero-section .row {
-        justify-content: center;
-    }
-
-    .hero-section .col-lg-8,
-    .hero-section .col-xl-7 {
-        margin-left: 0 !important;
-    }
-
-    .hero-section h1 {
-        font-size: 2.7rem !important;
-        line-height: 1.15;
-        margin-bottom: 1rem;
-    }
-
-    .hero-section .lead {
-        margin: 0 auto 2rem;
-        font-size: 1rem;
-        max-width: 100% !important;
-    }
-
-    .hero-section .badge {
-        font-size: 0.8rem;
-    }
-
-    .hero-section .btn {
-        min-width: 220px;
-    }
-}
-
-/* Mobile */
-@media (max-width: 576px) {
-
-    .hero-section {
-        min-height: 100dvh;
-        height: auto !important;
-        padding: 90px 20px 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-
-    .hero-section h1 {
-        font-size: 2.1rem !important;
-        line-height: 1.15;
-    }
-
-    .hero-section .lead {
-        font-size: 0.95rem;
-        line-height: 1.7;
-        margin-bottom: 1.8rem !important;
-    }
-
-    .hero-section .badge {
-        font-size: 0.75rem;
-        padding: 8px 12px !important;
-    }
-
     .hero-section .d-flex {
-        width: 100%;
-        align-items: center;
+        flex-direction: row !important; /* Buttons ko side-by-side (row) hi rakhega */
+        gap: 12px !important;
+        justify-content: flex-start !important; /* Left side me rakhega */
     }
-
     .hero-section .btn {
-        width: 100%;
-        max-width: 320px;
-        margin: 0 auto;
-        padding: 14px 20px !important;
-        font-size: 0.95rem;
+        padding: 10px 20px !important;
+        font-size: 0.9rem;
+        width: auto !important; /* Full width hone se rokega */
+        min-width: unset !important;
     }
 }
 
-/* Samsung S21 FE, iPhone 12/13/14 */
-@media (max-width: 400px) {
-
+/* Chote Mobile Screens ke liye */
+@media (max-width: 576px) {
     .hero-section {
-        min-height: 100dvh;
-        padding: 70px 15px 40px;
+        padding: 30px 15px;
     }
-
     .hero-section h1 {
-        font-size: 1.8rem !important;
-        line-height: 1.1;
+        font-size: 1.8rem !important; /* Chote mobile ke hisab se perfect heading size */
     }
-
     .hero-section .lead {
         font-size: 0.9rem;
-        line-height: 1.6;
+        max-width: 90% !important;
     }
-
     .hero-section .badge {
-        font-size: 0.68rem;
+        font-size: 0.75rem;
     }
+}
 
+/* Ultra Small Screens (iPhone 12/13 Mini, Samsung S21 FE etc.) */
+@media (max-width: 400px) {
+    .hero-section h1 {
+        font-size: 1.6rem !important;
+    }
+    .hero-section .lead {
+        font-size: 0.85rem;
+    }
     .hero-section .btn {
-        max-width: 100%;
-        font-size: 0.88rem;
+        padding: 8px 15px !important;
+        font-size: 0.85rem;
     }
 }
 
@@ -476,7 +397,7 @@
     min-height: 85dvh;">
     <div class="hero-overlay"></div>
     <div class="container text-center text-md-start">
-        <div class="row">
+        <div class="row flex-nowrap">
             <div class="col-lg-8 col-xl-7 mx-auto mx-md-0">
                 <div class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold shadow-sm"> 
                     <i class="fas fa-award me-1"></i> #1 Rated Dental Clinic in the City 

@@ -28,7 +28,7 @@ class Appointment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     fullname = db.Column(db.String(100), nullable=False)
-    phone = db.Column(db.String(20), nullable=False)
+    phone = db.Column(db.String(13), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     address = db.Column(db.Text)
 
