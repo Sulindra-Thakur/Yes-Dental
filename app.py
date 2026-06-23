@@ -254,6 +254,7 @@ def forgot_password():
             db.session.commit()
 
             base_url = os.getenv("BASE_URL", "https://yes-dental.onrender.com").rstrip("/")
+            relative_link = url_for('reset_password', token=token, _external=False)
             reset_link = f"{base_url}{url_for('reset_password', token=token)}"
 
             body = f"""
