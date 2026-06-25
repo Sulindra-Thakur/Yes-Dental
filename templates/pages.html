@@ -382,6 +382,315 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================
+   PROFESSIONAL EMERGENCY STRIP
+========================================== */
+.bg-danger-custom {
+    background: linear-gradient(135deg, #ef1c1c 0%, #d90429 100%) !important;
+    border-radius: 26px;
+    padding: 28px 32px !important;
+    box-shadow:
+        0 18px 40px rgba(217, 4, 41, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    position: relative;
+}
+
+.bg-danger-custom::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.14), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.08), transparent 24%);
+    pointer-events: none;
+}
+
+/* ==========================================
+   INNER LAYOUT
+========================================== */
+.emergency-strip-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: nowrap;
+}
+
+/* ==========================================
+   LOGO CIRCLE
+========================================== */
+.emergency-logo-circle {
+    width: 112px;
+    height: 112px;
+    min-width: 112px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    overflow: hidden;
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.14),
+        inset 0 0 0 4px rgba(255,255,255,0.65);
+}
+
+.emergency-logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* ==========================================
+   COMMON BLOCKS
+========================================== */
+.emergency-block {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.emergency-title-block {
+    min-width: 245px;
+}
+
+/* ==========================================
+   MAIN TITLE BLOCK
+========================================== */
+.emergency-icon-text {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.emergency-icon-text i {
+    font-size: 2.25rem;
+    color: #ffffff;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.emergency-icon-text h2 {
+    margin: 0;
+    font-size: 2.1rem;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.emergency-icon-text h3 {
+    margin: 6px 0 0;
+    font-size: 1.15rem;
+    line-height: 1.25;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    color: #ffffff;
+}
+
+/* ==========================================
+   INFO BLOCKS
+========================================== */
+.emergency-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.emergency-info i {
+    font-size: 1.15rem;
+    color: #ffffff;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.emergency-info h5 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+}
+
+.emergency-info p {
+    margin: 0;
+    font-size: 0.97rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    font-weight: 400;
+}
+
+/* ==========================================
+   DIVIDER
+========================================== */
+.emergency-divider {
+    width: 1px;
+    min-height: 92px;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.08),
+        rgba(255,255,255,0.4),
+        rgba(255,255,255,0.08)
+    );
+    flex-shrink: 0;
+}
+
+/* ==========================================
+   LARGE DESKTOP TUNING
+========================================== */
+@media (min-width: 1200px) {
+    .emergency-strip-inner {
+        gap: 32px;
+    }
+
+    .emergency-title-block {
+        min-width: 260px;
+    }
+
+    .emergency-info p {
+        font-size: 1rem;
+    }
+}
+
+/* ==========================================
+   LAPTOP / TABLET
+========================================== */
+@media (max-width: 1199px) {
+    .bg-danger-custom {
+        padding: 24px 26px !important;
+    }
+
+    .emergency-strip-inner {
+        gap: 22px;
+    }
+
+    .emergency-title-block {
+        min-width: 220px;
+    }
+
+    .emergency-icon-text h2 {
+        font-size: 1.8rem;
+    }
+
+    .emergency-icon-text h3 {
+        font-size: 1rem;
+    }
+
+    .emergency-info p {
+        font-size: 0.92rem;
+        white-space: normal;
+    }
+}
+
+/* ==========================================
+   TABLET STACK
+========================================== */
+@media (max-width: 991px) {
+    .bg-danger-custom {
+        padding: 24px !important;
+        border-radius: 22px;
+    }
+
+    .emergency-strip-inner {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px;
+    }
+
+    .emergency-divider {
+        display: none;
+    }
+
+    .emergency-logo-circle {
+        width: 96px;
+        height: 96px;
+        min-width: 96px;
+    }
+
+    .emergency-title-block {
+        min-width: 240px;
+    }
+
+    .emergency-block {
+        min-width: calc(50% - 12px);
+    }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+@media (max-width: 576px) {
+    .bg-danger-custom {
+        padding: 20px !important;
+        border-radius: 18px;
+    }
+
+    .emergency-strip-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+    }
+
+    .emergency-logo-circle {
+        width: 88px;
+        height: 88px;
+        min-width: 88px;
+        margin: 0 auto;
+    }
+
+    .emergency-title-block,
+    .emergency-block {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .emergency-icon-text {
+        gap: 14px;
+    }
+
+    .emergency-icon-text i {
+        font-size: 1.9rem;
+    }
+
+    .emergency-icon-text h2 {
+        font-size: 1.6rem;
+    }
+
+    .emergency-icon-text h3 {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+
+    .emergency-info h5 {
+        font-size: 0.98rem;
+    }
+
+    .emergency-info p {
+        font-size: 0.92rem;
+        line-height: 1.55;
+        white-space: normal;
+    }
+}
+
 </style> 
 
 <section class="hero-section text-white d-flex align-items-center"
@@ -408,23 +717,51 @@
         </div>
     </div>
 </section>
-
-<!-- 11. EMERGENCY BANNER -->
 <div class="container my-5">
     <div class="bg-danger-custom text-white">
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
-            <div class="d-flex align-items-center">
-                <div class="bg-white bg-opacity-20 rounded-circle p-3 me-4 d-inline-flex align-items-center justify-content-center" style="min-width: 70px; min-height: 70px;">
-                    <i class="fas fa-ambulance fa-2x text-white"></i>
-                </div>
-                <div>
-                    <h3 class="mb-1 fw-bold">Yes Dental Emergency?</h3>
-                    <p class="text-white-50 mb-0 fs-5">We offer same-day emergency appointments for critical states.</p>
+        <div class="emergency-strip-inner">
+            
+            <!-- Left Logo Circle -->
+            <div class="emergency-logo-circle">
+                <img src="{{ url_for('static', filename='logo/circle.jpeg') }}" alt="Yes Dental Logo">
+            </div>
+
+            <!-- Emergency Title -->
+            <div class="emergency-block emergency-title-block">
+                <div class="emergency-icon-text">
+                    <i class="fas fa-headset"></i>
+                    <div>
+                        <h2 class="mb-1">24/7</h2>
+                        <h3 class="mb-0">EMERGENCY<br>DENTAL CARE</h3>
+                    </div>
                 </div>
             </div>
-            <a href="tel:+1234567890" class="btn btn-light btn-lg text-danger fw-bold shadow-sm px-5 py-3 fs-5 rounded-3">
-                <i class="fas fa-phone-alt me-2"></i>01-5923492 / +977-9705653492
-            </a>
+
+            <div class="emergency-divider"></div>
+
+            <!-- Visit Us -->
+            <div class="emergency-block">
+                <div class="emergency-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h5>Visit Us</h5>
+                        <p>Shantinagar-31,New Baneshwor<br>(Infront of NABIL BANK),<br>Kathmandu, Nepal 46400</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="emergency-divider"></div>
+
+            <!-- Call Us -->
+            <div class="emergency-block">
+                <div class="emergency-info">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h5>Call Us</h5>
+                        <p>+977-9705653492<br>01-5923492</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
